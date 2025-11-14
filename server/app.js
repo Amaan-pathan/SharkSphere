@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import router from './routes/authRoutes.js';
 import ideaRoutes from './routes/ideaRoutes.js';
 import voteRoutes from './routes/voteRoutes.js';
@@ -7,6 +8,30 @@ import voteRoutes from './routes/voteRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 dotenv.config();
+
+// CORS configuration - Allow requests from Vercel frontend and localhost
+const allowedOrigins = [
+  'https://sharks-sphere.vercel.app', // Your Vercel frontend
+  'http://localhost:5173', // Local development
+  'http://localhost:3000', // Local backend (if needed)
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
 
