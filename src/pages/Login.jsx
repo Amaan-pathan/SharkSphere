@@ -48,7 +48,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-bg-primary flex items-center justify-center px-6 sm:px-8 py-12 pt-24 relative overflow-hidden">
+    <div className="min-h-screen bg-bg-primary flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12 pt-20 sm:pt-24 relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -62,7 +62,7 @@ const Login = () => {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute top-20 left-10 w-96 h-96 bg-purple-DEFAULT/10 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-purple-DEFAULT/10 rounded-full blur-3xl"
         />
         <motion.div
           animate={{
@@ -75,7 +75,7 @@ const Login = () => {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute bottom-20 right-10 w-96 h-96 bg-purple-neon/10 rounded-full blur-3xl"
+          className="absolute bottom-20 right-10 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-purple-neon/10 rounded-full blur-3xl"
         />
       </div>
 
@@ -85,25 +85,25 @@ const Login = () => {
         transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
         className="w-full max-w-md relative z-10"
       >
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-3 mb-6">
+        <div className="text-center mb-6 sm:mb-10">
+          <div className="inline-flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
             <motion.div
               whileHover={{ scale: 1.05, rotate: 5 }}
               whileTap={{ scale: 0.95 }}
-              className="w-14 h-14 rounded-lg overflow-hidden shadow-glow-neon"
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg overflow-hidden shadow-glow-neon flex-shrink-0"
             >
               <img src={favicon} alt="NST E-Cell Logo" className="w-full h-full object-cover" />
             </motion.div>
             <div className="text-left">
-              <div className="text-2xl font-bold text-text-heading">NST E-Cell</div>
-              <div className="text-xs text-purple-neon font-semibold tracking-wider uppercase">Shark Sphere</div>
+              <div className="text-xl sm:text-2xl font-bold text-text-heading">NST E-Cell</div>
+              <div className="text-[10px] sm:text-xs text-purple-neon font-semibold tracking-wider uppercase">Shark Sphere</div>
             </div>
           </div>
-          <h1 className="text-h1 font-bold mb-3 text-text-heading">Welcome Back</h1>
-          <p className="text-body-lg text-text-body">Sign in to continue your journey</p>
+          <h1 className="text-h1 font-bold mb-2 sm:mb-3 text-text-heading">Welcome Back</h1>
+          <p className="text-body sm:text-body-lg text-text-body">Sign in to continue your journey</p>
         </div>
 
-        <Card glass className="p-8">
+        <Card glass className="p-6 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <motion.div

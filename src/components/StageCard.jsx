@@ -10,17 +10,17 @@ const StageCard = ({ stage, description, icon: Icon, delay = 0 }) => {
       transition={{ duration: 0.4, delay, ease: [0.4, 0, 0.2, 1] }}
     >
       <Card hover glass className="h-full">
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {Icon && (
-            <div className="w-10 h-10 rounded-lg bg-purple-DEFAULT/20 border border-purple-accent/30 flex items-center justify-center">
-              <Icon className="w-5 h-5 text-purple-neon" strokeWidth={2} />
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-purple-DEFAULT/20 border border-purple-accent/30 flex items-center justify-center">
+              <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-purple-neon" strokeWidth={2} />
             </div>
           )}
           <div>
-            <div className="text-small font-semibold text-purple-neon mb-2 uppercase tracking-wide">
+            <div className="text-xs sm:text-small font-semibold text-purple-neon mb-1.5 sm:mb-2 uppercase tracking-wide">
               {stage}
             </div>
-            <p className="text-body text-text-body leading-relaxed">
+            <p className="text-sm sm:text-body text-text-body leading-relaxed">
               {description}
             </p>
           </div>

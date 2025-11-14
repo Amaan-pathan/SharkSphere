@@ -17,11 +17,11 @@ const Input = forwardRef(({
       )}
       <input
         ref={ref}
-        className={`w-full px-4 py-3.5 bg-bg-secondary/50 backdrop-blur-sm border ${
+        className={`w-full px-3 sm:px-4 py-2.5 sm:py-3.5 bg-bg-secondary/50 backdrop-blur-sm border ${
           error 
             ? 'border-red-500/50' 
             : 'border-border-light'
-        } rounded-lg text-text-heading placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-purple-neon focus:border-purple-neon focus:shadow-glow-purple transition-all duration-300 hover:border-purple-DEFAULT/50 ${className}`}
+        } rounded-lg text-sm sm:text-base text-text-heading placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-purple-neon focus:border-purple-neon focus:shadow-glow-purple transition-all duration-300 hover:border-purple-DEFAULT/50 ${className}`}
         {...props}
       />
       {error && (

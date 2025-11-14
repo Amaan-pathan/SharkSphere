@@ -85,16 +85,16 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-bg-primary text-text-heading pt-24 pb-16 px-6 sm:px-8 lg:px-12">
+    <div className="min-h-screen bg-bg-primary text-text-heading pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-12">
       <div className="max-w-content mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="mb-12"
+          className="mb-8 sm:mb-12"
         >
-          <h1 className="text-h1 font-bold mb-4 text-text-heading">Profile</h1>
-          <p className="text-body-lg text-text-body">Your account information</p>
+          <h1 className="text-h1 font-bold mb-2 sm:mb-4 text-text-heading">Profile</h1>
+          <p className="text-body sm:text-body-lg text-text-body">Your account information</p>
         </motion.div>
 
         {/* User Info Card */}
@@ -103,16 +103,16 @@ const Profile = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.1 }}
         >
-          <Card glass className="mb-8">
-            <div className="flex items-center gap-6 mb-8 pb-8 border-b border-border-light">
-              <div className="w-24 h-24 rounded-card bg-gradient-to-br from-purple-DEFAULT to-purple-neon flex items-center justify-center text-white text-4xl font-bold shadow-glow-neon">
+          <Card glass className="mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-border-light">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-card bg-gradient-to-br from-purple-DEFAULT to-purple-neon flex items-center justify-center text-white text-3xl sm:text-4xl font-bold shadow-glow-neon flex-shrink-0">
                 {user.name.charAt(0).toUpperCase()}
               </div>
-              <div className="flex-1">
+              <div className="flex-1 text-center sm:text-left w-full sm:w-auto">
                 <h2 className="text-h2 font-bold mb-2 text-text-heading">{user.name}</h2>
-                <p className="text-body text-text-body flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  {user.email}
+                <p className="text-body text-text-body flex items-center justify-center sm:justify-start gap-2">
+                  <Mail className="w-4 h-4 flex-shrink-0" />
+                  <span className="break-all">{user.email}</span>
                 </p>
               </div>
             </div>
@@ -177,9 +177,9 @@ const Profile = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
         >
-          <h2 className="text-h2 font-bold mb-6 text-text-heading">Your Ideas</h2>
+          <h2 className="text-h2 font-bold mb-4 sm:mb-6 text-text-heading">Your Ideas</h2>
           {ideasLoading ? (
-            <div className="text-center py-12">
+            <div className="text-center py-8 sm:py-12">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
@@ -188,13 +188,13 @@ const Profile = () => {
               <p className="text-text-body">Loading your ideas...</p>
             </div>
           ) : userIdeas.length === 0 ? (
-            <Card glass className="text-center py-12">
-              <Sparkles className="w-12 h-12 text-purple-neon mx-auto mb-4" />
+            <Card glass className="text-center py-8 sm:py-12 px-4">
+              <Sparkles className="w-10 h-10 sm:w-12 sm:h-12 text-purple-neon mx-auto mb-4" />
               <p className="text-text-body mb-4">You haven't shared any ideas yet</p>
-              <Button onClick={() => navigate('/create-idea')} variant="neon">Create Your First Idea</Button>
+              <Button onClick={() => navigate('/create-idea')} variant="neon" className="w-full sm:w-auto">Create Your First Idea</Button>
             </Card>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {userIdeas.map((idea, index) => (
                 <motion.div
                   key={idea.id}
@@ -203,7 +203,7 @@ const Profile = () => {
                   transition={{ duration: 0.3, delay: index * 0.05 }}
                   className="h-full"
                 >
-                  <Card hover glass className="h-full flex flex-col min-h-[280px]">
+                  <Card hover glass className="h-full flex flex-col min-h-[260px] sm:min-h-[280px]">
                     <div className="flex-1 mb-4 flex flex-col">
                       <div className="flex items-start justify-between gap-3 mb-3">
                         <h3 className="text-h4 font-semibold text-text-heading line-clamp-2 flex-1">

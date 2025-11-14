@@ -153,25 +153,26 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-bg-primary text-text-heading pt-24 pb-16 px-6 sm:px-8 lg:px-12">
+    <div className="min-h-screen bg-bg-primary text-text-heading pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-12">
       <div className="max-w-content mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
+          className="mb-8 sm:mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6"
         >
-          <div>
-            <h1 className="text-h1 font-bold mb-3 text-text-heading">Ideas</h1>
-            <p className="text-body-lg text-text-body">
+          <div className="flex-1">
+            <h1 className="text-h1 font-bold mb-2 sm:mb-3 text-text-heading">Ideas</h1>
+            <p className="text-body text-text-body sm:text-body-lg">
               Explore and vote on innovative ideas from the community
             </p>
           </div>
-          <Link to="/create-idea">
-            <Button size="lg" variant="neon" className="group">
-              <Plus className="w-5 h-5 mr-2" />
-              Share Idea
+          <Link to="/create-idea" className="w-full sm:w-auto">
+            <Button size="lg" variant="neon" className="group w-full sm:w-auto">
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+              <span className="hidden sm:inline">Share Idea</span>
+              <span className="sm:hidden">Share</span>
             </Button>
           </Link>
         </motion.div>
@@ -181,24 +182,24 @@ const Dashboard = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="mb-8 flex flex-col sm:flex-row gap-4"
+          className="mb-6 sm:mb-8 flex flex-col sm:flex-row gap-3 sm:gap-4"
         >
           <div className="flex-1 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
+            <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-text-muted" />
             <Input
               type="text"
               placeholder="Search ideas..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="mb-0 pl-12"
+              className="mb-0 pl-10 sm:pl-12"
             />
           </div>
-          <div className="relative">
-            <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted pointer-events-none z-10" />
+          <div className="relative w-full sm:w-auto sm:min-w-[180px]">
+            <Filter className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-text-muted pointer-events-none z-10" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-3 pl-12 bg-bg-secondary border border-border-light rounded-lg text-text-heading focus:outline-none focus:ring-2 focus:ring-purple-neon focus:border-purple-neon transition-all duration-200 appearance-none cursor-pointer hover:border-purple-DEFAULT/50"
+              className="w-full px-3 sm:px-4 py-3 pl-10 sm:pl-12 bg-bg-secondary border border-border-light rounded-lg text-sm sm:text-base text-text-heading focus:outline-none focus:ring-2 focus:ring-purple-neon focus:border-purple-neon transition-all duration-200 appearance-none cursor-pointer hover:border-purple-DEFAULT/50"
             >
               <option value="newest">Newest First</option>
               <option value="votes">Most Voted</option>
@@ -211,25 +212,25 @@ const Dashboard = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-32"
+            className="text-center py-16 sm:py-32 px-4"
           >
-            <div className="text-6xl mb-6">💡</div>
-            <h2 className="text-h2 font-bold mb-4 text-text-heading">
+            <div className="text-4xl sm:text-6xl mb-4 sm:mb-6">💡</div>
+            <h2 className="text-h2 font-bold mb-3 sm:mb-4 text-text-heading">
               {searchQuery ? 'No ideas found' : 'No ideas yet'}
             </h2>
-            <p className="text-body-lg text-text-body mb-8 max-w-md mx-auto">
+            <p className="text-body text-text-body sm:text-body-lg mb-6 sm:mb-8 max-w-md mx-auto">
               {searchQuery
                 ? 'Try adjusting your search terms'
                 : 'Be the first to share an innovative idea with the community'}
             </p>
             {!searchQuery && (
-              <Link to="/create-idea">
-                <Button size="lg" variant="neon">Create First Idea</Button>
+              <Link to="/create-idea" className="inline-block w-full sm:w-auto">
+                <Button size="lg" variant="neon" className="w-full sm:w-auto">Create First Idea</Button>
               </Link>
             )}
           </motion.div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <AnimatePresence>
               {filteredAndSortedIdeas.map((idea, index) => {
                 const isPositive = idea.votes?.total > 0;
@@ -245,7 +246,7 @@ const Dashboard = () => {
                     layout
                     className="h-full"
                   >
-                    <Card hover glass className="h-full flex flex-col min-h-[320px]">
+                    <Card hover glass className="h-full flex flex-col min-h-[280px] sm:min-h-[320px]">
                       <div className="flex-1 mb-4 flex flex-col">
                         <div className="flex items-start justify-between gap-3 mb-3">
                           <h3 className="text-h4 font-semibold text-text-heading line-clamp-2 flex-1">

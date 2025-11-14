@@ -39,16 +39,16 @@ const CreateIdea = () => {
   };
 
   return (
-    <div className="min-h-screen bg-bg-primary text-text-heading pt-24 pb-16 px-6 sm:px-8 lg:px-12">
+    <div className="min-h-screen bg-bg-primary text-text-heading pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-12">
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="mb-12"
+          className="mb-8 sm:mb-12"
         >
-          <h1 className="text-h1 font-bold mb-4 text-text-heading">Share Your Idea</h1>
-          <p className="text-body-lg text-text-body">
+          <h1 className="text-h1 font-bold mb-2 sm:mb-4 text-text-heading">Share Your Idea</h1>
+          <p className="text-body sm:text-body-lg text-text-body">
             What innovation are you building?
           </p>
         </motion.div>
@@ -58,7 +58,7 @@ const CreateIdea = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.1 }}
         >
-          <Card glass className="p-8">
+          <Card glass className="p-6 sm:p-8">
             {success && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -104,8 +104,8 @@ const CreateIdea = () => {
                   onChange={(e) => setDescription(e.target.value)}
                   required
                   minLength={10}
-                  rows={12}
-                  className="w-full px-4 py-3.5 bg-bg-secondary/50 backdrop-blur-sm border border-border-light rounded-lg text-text-heading placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-purple-neon focus:border-purple-neon focus:shadow-glow-purple transition-all duration-300 resize-none leading-relaxed hover:border-purple-DEFAULT/50"
+                  rows={10}
+                  className="w-full px-4 py-3.5 bg-bg-secondary/50 backdrop-blur-sm border border-border-light rounded-lg text-sm sm:text-base text-text-heading placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-purple-neon focus:border-purple-neon focus:shadow-glow-purple transition-all duration-300 resize-none leading-relaxed hover:border-purple-DEFAULT/50"
                   placeholder="Describe your idea in detail. What problem does it solve? How does it work? What makes it unique?"
                 />
                 <p className="mt-2 text-xs text-text-muted">
@@ -113,13 +113,13 @@ const CreateIdea = () => {
                 </p>
               </div>
 
-              <div className="flex gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
                 <Button
                   type="submit"
                   loading={loading}
                   disabled={success}
                   variant="neon"
-                  className="flex-1"
+                  className="flex-1 w-full sm:w-auto"
                 >
                   {success ? 'Created!' : 'Post Idea'}
                 </Button>
@@ -127,6 +127,7 @@ const CreateIdea = () => {
                   type="button"
                   variant="secondary"
                   onClick={() => navigate('/dashboard')}
+                  className="w-full sm:w-auto"
                 >
                   Cancel
                 </Button>

@@ -44,18 +44,18 @@ export default {
         display: ['Inter', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'hero': ['4rem', { lineHeight: '1.1', letterSpacing: '-0.03em', fontWeight: '700' }], // 64px
-        'h1': ['2.75rem', { lineHeight: '1.2', letterSpacing: '-0.02em', fontWeight: '700' }], // 44px
-        'h2': ['2.25rem', { lineHeight: '1.3', letterSpacing: '-0.01em', fontWeight: '600' }], // 36px
-        'h3': ['1.75rem', { lineHeight: '1.4', fontWeight: '600' }], // 28px
-        'h4': ['1.5rem', { lineHeight: '1.4', fontWeight: '600' }], // 24px
-        'body': ['1.0625rem', { lineHeight: '1.6', fontWeight: '400' }], // ~17px
-        'body-lg': ['1.125rem', { lineHeight: '1.6', fontWeight: '400' }], // 18px
+        'hero': ['clamp(2rem, 5vw, 4rem)', { lineHeight: '1.1', letterSpacing: '-0.03em', fontWeight: '700' }], // Responsive 32px-64px
+        'h1': ['clamp(1.75rem, 4vw, 2.75rem)', { lineHeight: '1.2', letterSpacing: '-0.02em', fontWeight: '700' }], // Responsive 28px-44px
+        'h2': ['clamp(1.5rem, 3vw, 2.25rem)', { lineHeight: '1.3', letterSpacing: '-0.01em', fontWeight: '600' }], // Responsive 24px-36px
+        'h3': ['clamp(1.25rem, 2.5vw, 1.75rem)', { lineHeight: '1.4', fontWeight: '600' }], // Responsive 20px-28px
+        'h4': ['clamp(1.125rem, 2vw, 1.5rem)', { lineHeight: '1.4', fontWeight: '600' }], // Responsive 18px-24px
+        'body': ['clamp(0.9375rem, 1.5vw, 1.0625rem)', { lineHeight: '1.6', fontWeight: '400' }], // Responsive ~15px-17px
+        'body-lg': ['clamp(1rem, 1.5vw, 1.125rem)', { lineHeight: '1.6', fontWeight: '400' }], // Responsive 16px-18px
         'small': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],
       },
       spacing: {
-        'section': '8rem',           // 128px vertical spacing
-        'section-lg': '12rem',       // 192px for larger sections
+        'section': 'clamp(4rem, 8vw, 8rem)',           // Responsive 64px-128px vertical spacing
+        'section-lg': 'clamp(6rem, 12vw, 12rem)',       // Responsive 96px-192px for larger sections
         '18': '4.5rem',
         '88': '22rem',
       },
