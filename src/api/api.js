@@ -18,6 +18,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 10000, // 10 second timeout for all requests
 });
 
 // Request interceptor to add token
@@ -38,18 +39,20 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Log detailed error for debugging
-    console.error('API Error:', {
-      message: error.message,
-      status: error.response?.status,
-      statusText: error.response?.statusText,
-      data: error.response?.data,
-      config: {
-        url: error.config?.url,
-        method: error.config?.method,
-        baseURL: error.config?.baseURL,
-      }
-    });
+    // Only log detailed errors in development, and skip timeout errors
+    if (import.meta.env.DEV && error.code !== 'ECONNABORTED') {
+      console.error('API Error:', {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        config: {
+          url: error.config?.url,
+          method: error.config?.method,
+          baseURL: error.config?.baseURL,
+        }
+      });
+    }
 
     if (error.response?.status === 401) {
       localStorage.removeItem('token');

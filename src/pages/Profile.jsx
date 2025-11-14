@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Trash2, Eye } from 'lucide-react';
+import { Trash2, Eye, User, Mail, CheckCircle, XCircle, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
 import { getAllIdeas, deleteIdea } from '../api/ideas.js';
 import Button from '../components/Button.jsx';
@@ -29,7 +29,6 @@ const Profile = () => {
       setIdeasLoading(true);
       const response = await getAllIdeas();
       if (response.success) {
-        // Filter ideas by current user
         const filtered = response.ideas.filter((idea) => idea.author.id === user.id);
         setUserIdeas(filtered);
       }
@@ -58,9 +57,7 @@ const Profile = () => {
     try {
       const response = await deleteIdea(ideaId);
       if (response.success) {
-        // Remove the idea from the list
         setUserIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
-        // Close modal if the deleted idea was open
         if (selectedIdea?.id === ideaId) {
           setIsModalOpen(false);
           setSelectedIdea(null);
@@ -96,7 +93,7 @@ const Profile = () => {
           transition={{ duration: 0.4 }}
           className="mb-12"
         >
-          <h1 className="text-h1 font-semibold mb-4 text-text-heading">Profile</h1>
+          <h1 className="text-h1 font-bold mb-4 text-text-heading">Profile</h1>
           <p className="text-body-lg text-text-body">Your account information</p>
         </motion.div>
 
@@ -106,14 +103,17 @@ const Profile = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.1 }}
         >
-          <Card className="mb-8">
-            <div className="flex items-center gap-6 mb-8 pb-8 border-b border-border">
-              <div className="w-20 h-20 rounded-card bg-purple-accent flex items-center justify-center text-white text-3xl font-bold">
+          <Card glass className="mb-8">
+            <div className="flex items-center gap-6 mb-8 pb-8 border-b border-border-light">
+              <div className="w-24 h-24 rounded-card bg-gradient-to-br from-purple-DEFAULT to-purple-neon flex items-center justify-center text-white text-4xl font-bold shadow-glow-neon">
                 {user.name.charAt(0).toUpperCase()}
               </div>
-              <div>
-                <h2 className="text-h2 font-semibold mb-1 text-text-heading">{user.name}</h2>
-                <p className="text-body text-text-body">{user.email}</p>
+              <div className="flex-1">
+                <h2 className="text-h2 font-bold mb-2 text-text-heading">{user.name}</h2>
+                <p className="text-body text-text-body flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  {user.email}
+                </p>
               </div>
             </div>
 
@@ -122,7 +122,7 @@ const Profile = () => {
                 <label className="block text-xs font-semibold text-text-muted mb-2 uppercase tracking-wider">
                   Full Name
                 </label>
-                <div className="text-body-lg font-medium text-text-heading bg-bg-primary border border-border rounded-card px-4 py-3">
+                <div className="text-body-lg font-medium text-text-heading bg-bg-tertiary border border-border-light rounded-lg px-4 py-3">
                   {user.name}
                 </div>
               </div>
@@ -131,7 +131,7 @@ const Profile = () => {
                 <label className="block text-xs font-semibold text-text-muted mb-2 uppercase tracking-wider">
                   Email Address
                 </label>
-                <div className="text-body-lg font-medium text-text-heading bg-bg-primary border border-border rounded-card px-4 py-3">
+                <div className="text-body-lg font-medium text-text-heading bg-bg-tertiary border border-border-light rounded-lg px-4 py-3">
                   {user.email}
                 </div>
               </div>
@@ -143,17 +143,13 @@ const Profile = () => {
                   </label>
                   <div className="flex items-center gap-2">
                     {user.emailVerified ? (
-                      <div className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 text-green-400 rounded-card">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
+                      <div className="flex items-center gap-2 px-4 py-2.5 bg-green-500/10 border border-green-500/30 text-green-400 rounded-lg">
+                        <CheckCircle className="w-5 h-5" />
                         <span className="font-semibold">Verified</span>
                       </div>
                     ) : (
-                      <div className="flex items-center gap-2 px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded-card">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
+                      <div className="flex items-center gap-2 px-4 py-2.5 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded-lg">
+                        <XCircle className="w-5 h-5" />
                         <span className="font-semibold">Not Verified</span>
                       </div>
                     )}
@@ -161,7 +157,7 @@ const Profile = () => {
                 </div>
               )}
 
-              <div className="pt-6 border-t border-border">
+              <div className="pt-6 border-t border-border-light">
                 <Button
                   variant="secondary"
                   onClick={handleLogout}
@@ -181,15 +177,21 @@ const Profile = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
         >
-          <h2 className="text-h2 font-semibold mb-6 text-text-heading">Your Ideas</h2>
+          <h2 className="text-h2 font-bold mb-6 text-text-heading">Your Ideas</h2>
           {ideasLoading ? (
             <div className="text-center py-12">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                className="w-8 h-8 border-4 border-purple-DEFAULT border-t-transparent rounded-full mx-auto mb-4"
+              />
               <p className="text-text-body">Loading your ideas...</p>
             </div>
           ) : userIdeas.length === 0 ? (
-            <Card className="text-center py-12">
+            <Card glass className="text-center py-12">
+              <Sparkles className="w-12 h-12 text-purple-neon mx-auto mb-4" />
               <p className="text-text-body mb-4">You haven't shared any ideas yet</p>
-              <Button onClick={() => navigate('/create-idea')}>Create Your First Idea</Button>
+              <Button onClick={() => navigate('/create-idea')} variant="neon">Create Your First Idea</Button>
             </Card>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -201,10 +203,10 @@ const Profile = () => {
                   transition={{ duration: 0.3, delay: index * 0.05 }}
                   className="h-full"
                 >
-                  <Card hover className="h-full flex flex-col min-h-[280px]">
+                  <Card hover glass className="h-full flex flex-col min-h-[280px]">
                     <div className="flex-1 mb-4 flex flex-col">
                       <div className="flex items-start justify-between gap-3 mb-3">
-                        <h3 className="text-h3 font-semibold text-text-heading line-clamp-2 flex-1">
+                        <h3 className="text-h4 font-semibold text-text-heading line-clamp-2 flex-1">
                           {idea.title}
                         </h3>
                         <motion.button
@@ -215,7 +217,7 @@ const Profile = () => {
                           disabled={deletingIds.has(idea.id)}
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
-                          className="flex-shrink-0 p-2 rounded-card text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="flex-shrink-0 p-2 rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           title="Delete idea"
                         >
                           <Trash2 className="w-4 h-4" strokeWidth={2} />
@@ -236,13 +238,13 @@ const Profile = () => {
                         onClick={() => handleViewDetails(idea)}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex items-center gap-2 text-sm font-medium text-purple-accent hover:text-purple-accent/80 transition-colors mb-4"
+                        className="flex items-center gap-2 text-sm font-medium text-purple-neon hover:text-purple-accent transition-colors mb-4 group"
                       >
-                        <Eye className="w-4 h-4" />
+                        <Eye className="w-4 h-4 group-hover:scale-110 transition-transform" />
                         View Details
                       </motion.button>
                     </div>
-                    <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
+                    <div className="flex items-center justify-between pt-4 border-t border-border-light mt-auto">
                       <div className="text-sm text-text-muted">
                         {idea.votes?.total || 0} votes
                       </div>

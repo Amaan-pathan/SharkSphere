@@ -7,17 +7,17 @@ const StageCard = ({ stage, description, icon: Icon, delay = 0 }) => {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.3, delay, ease: [0.4, 0, 0.2, 1] }}
+      transition={{ duration: 0.4, delay, ease: [0.4, 0, 0.2, 1] }}
     >
-      <Card hover={false} className="h-full">
-        <div className="space-y-3">
+      <Card hover glass className="h-full">
+        <div className="space-y-4">
           {Icon && (
-            <div className="w-9 h-9 rounded-card bg-bg-primary border border-border flex items-center justify-center">
-              <Icon className="w-4 h-4 text-purple-accent" strokeWidth={1.5} />
+            <div className="w-10 h-10 rounded-lg bg-purple-DEFAULT/20 border border-purple-accent/30 flex items-center justify-center">
+              <Icon className="w-5 h-5 text-purple-neon" strokeWidth={2} />
             </div>
           )}
           <div>
-            <div className="text-small font-semibold text-text-muted mb-1.5 uppercase tracking-wide">
+            <div className="text-small font-semibold text-purple-neon mb-2 uppercase tracking-wide">
               {stage}
             </div>
             <p className="text-body text-text-body leading-relaxed">

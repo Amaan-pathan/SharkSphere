@@ -10,14 +10,28 @@ export const AuthProvider = ({ children }) => {
   const fetchUser = async () => {
     try {
       const response = await getMe();
-      if (response.success) {
+      if (response?.success) {
         setUser(response.user);
       }
     } catch (error) {
-      console.error('Failed to fetch user:', error);
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      // Handle timeout/network errors gracefully
+      if (error.code === 'ECONNABORTED' || error.message?.includes('timeout') || !error.response) {
+        // Network/timeout error - don't remove token, might be temporary
+        // Silently continue without user session - app will work fine
+        // No need to log - this is expected when backend is sleeping/unavailable
+      } else if (error.response?.status === 401) {
+        // Unauthorized - token is invalid, remove it
+        console.warn('User session expired or invalid token');
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      } else {
+        // Other errors - only log in development
+        if (import.meta.env.DEV) {
+          console.error('Failed to fetch user:', error);
+        }
+      }
     } finally {
+      // Always set loading to false, even on error
       setLoading(false);
     }
   };
@@ -27,6 +41,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       fetchUser();
     } else {
+      // Set loading to false immediately if no token
       setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

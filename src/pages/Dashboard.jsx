@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Trash2, Eye } from 'lucide-react';
+import { Trash2, Eye, Search, ArrowUp, Plus, Filter } from 'lucide-react';
 import { getAllIdeas, deleteIdea } from '../api/ideas.js';
 import { toggleVote } from '../api/votes.js';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -79,9 +79,7 @@ const Dashboard = () => {
     try {
       const response = await deleteIdea(ideaId);
       if (response.success) {
-        // Remove the idea from the list
         setIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
-        // Close modal if the deleted idea was open
         if (selectedIdea?.id === ideaId) {
           setIsModalOpen(false);
           setSelectedIdea(null);
@@ -107,7 +105,6 @@ const Dashboard = () => {
   const filteredAndSortedIdeas = useMemo(() => {
     let filtered = ideas;
 
-    // Search filter
     if (searchQuery) {
       filtered = filtered.filter(
         (idea) =>
@@ -116,7 +113,6 @@ const Dashboard = () => {
       );
     }
 
-    // Sort
     if (sortBy === 'newest') {
       filtered = [...filtered].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     } else if (sortBy === 'votes') {
@@ -137,7 +133,7 @@ const Dashboard = () => {
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-            className="w-12 h-12 border-4 border-purple-accent border-t-transparent rounded-full mx-auto mb-4"
+            className="w-12 h-12 border-4 border-purple-DEFAULT border-t-transparent rounded-full mx-auto mb-4"
           />
           <p className="text-text-body">Loading ideas...</p>
         </motion.div>
@@ -167,13 +163,16 @@ const Dashboard = () => {
           className="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
         >
           <div>
-            <h1 className="text-h1 font-semibold mb-3 text-text-heading">Ideas</h1>
+            <h1 className="text-h1 font-bold mb-3 text-text-heading">Ideas</h1>
             <p className="text-body-lg text-text-body">
               Explore and vote on innovative ideas from the community
             </p>
           </div>
           <Link to="/create-idea">
-            <Button size="lg">+ Share Idea</Button>
+            <Button size="lg" variant="neon" className="group">
+              <Plus className="w-5 h-5 mr-2" />
+              Share Idea
+            </Button>
           </Link>
         </motion.div>
 
@@ -184,23 +183,27 @@ const Dashboard = () => {
           transition={{ duration: 0.4, delay: 0.1 }}
           className="mb-8 flex flex-col sm:flex-row gap-4"
         >
-          <div className="flex-1">
+          <div className="flex-1 relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
             <Input
               type="text"
               placeholder="Search ideas..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="mb-0"
+              className="mb-0 pl-12"
             />
           </div>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="px-4 py-3 bg-bg-secondary border border-border rounded-card text-text-heading focus:outline-none focus:ring-2 focus:ring-purple-accent"
-          >
-            <option value="newest">Newest First</option>
-            <option value="votes">Most Voted</option>
-          </select>
+          <div className="relative">
+            <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted pointer-events-none z-10" />
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="px-4 py-3 pl-12 bg-bg-secondary border border-border-light rounded-lg text-text-heading focus:outline-none focus:ring-2 focus:ring-purple-neon focus:border-purple-neon transition-all duration-200 appearance-none cursor-pointer hover:border-purple-DEFAULT/50"
+            >
+              <option value="newest">Newest First</option>
+              <option value="votes">Most Voted</option>
+            </select>
+          </div>
         </motion.div>
 
         {/* Ideas Grid */}
@@ -211,7 +214,7 @@ const Dashboard = () => {
             className="text-center py-32"
           >
             <div className="text-6xl mb-6">💡</div>
-            <h2 className="text-h2 font-semibold mb-4 text-text-heading">
+            <h2 className="text-h2 font-bold mb-4 text-text-heading">
               {searchQuery ? 'No ideas found' : 'No ideas yet'}
             </h2>
             <p className="text-body-lg text-text-body mb-8 max-w-md mx-auto">
@@ -221,7 +224,7 @@ const Dashboard = () => {
             </p>
             {!searchQuery && (
               <Link to="/create-idea">
-                <Button size="lg">Create First Idea</Button>
+                <Button size="lg" variant="neon">Create First Idea</Button>
               </Link>
             )}
           </motion.div>
@@ -242,10 +245,10 @@ const Dashboard = () => {
                     layout
                     className="h-full"
                   >
-                    <Card hover className="h-full flex flex-col min-h-[320px]">
+                    <Card hover glass className="h-full flex flex-col min-h-[320px]">
                       <div className="flex-1 mb-4 flex flex-col">
                         <div className="flex items-start justify-between gap-3 mb-3">
-                          <h3 className="text-h3 font-semibold text-text-heading line-clamp-2 flex-1">
+                          <h3 className="text-h4 font-semibold text-text-heading line-clamp-2 flex-1">
                             {idea.title}
                           </h3>
                           {user && idea.author.id === user.id && (
@@ -257,7 +260,7 @@ const Dashboard = () => {
                               disabled={deletingIds.has(idea.id)}
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
-                              className="flex-shrink-0 p-2 rounded-card text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="flex-shrink-0 p-2 rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                               title="Delete idea"
                             >
                               <Trash2 className="w-4 h-4" strokeWidth={2} />
@@ -279,17 +282,17 @@ const Dashboard = () => {
                           onClick={() => handleViewDetails(idea)}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          className="flex items-center gap-2 text-sm font-medium text-purple-accent hover:text-purple-accent/80 transition-colors mb-4"
+                          className="flex items-center gap-2 text-sm font-medium text-purple-neon hover:text-purple-accent transition-colors mb-4 group"
                         >
-                          <Eye className="w-4 h-4" />
+                          <Eye className="w-4 h-4 group-hover:scale-110 transition-transform" />
                           View Details
                         </motion.button>
                       </div>
 
-                      <div className="pt-4 border-t border-border mt-auto">
+                      <div className="pt-4 border-t border-border-light mt-auto">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-card bg-purple-accent flex items-center justify-center text-white text-xs font-bold">
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-DEFAULT to-purple-neon flex items-center justify-center text-white text-xs font-bold shadow-glow-purple">
                               {idea.author.name.charAt(0).toUpperCase()}
                             </div>
                             <div>
@@ -308,20 +311,18 @@ const Dashboard = () => {
                               disabled={votingIds.has(idea.id)}
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
-                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-card text-sm font-semibold transition-all ${
+                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
                                 isPositive
-                                  ? 'bg-purple-accent/10 text-purple-accent border border-purple-accent/20'
-                                  : 'bg-bg-primary border border-border text-text-body'
+                                  ? 'bg-purple-DEFAULT/20 text-purple-neon border border-purple-neon/30 shadow-glow-purple'
+                                  : 'bg-bg-tertiary border border-border-light text-text-body hover:border-purple-DEFAULT/50'
                               }`}
                             >
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                              </svg>
+                              <ArrowUp className="w-4 h-4" strokeWidth={2.5} />
                               <span>{idea.votes?.upvotes || 0}</span>
                             </motion.button>
                             <div
                               className={`text-base font-bold min-w-[2rem] text-center ${
-                                isPositive ? 'text-purple-accent' : 'text-text-muted'
+                                isPositive ? 'text-purple-neon' : 'text-text-muted'
                               }`}
                             >
                               {voteCount > 0 ? '+' : ''}{voteCount}

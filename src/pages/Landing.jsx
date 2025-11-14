@@ -12,13 +12,17 @@ import {
   Briefcase,
   Wrench,
   Rocket,
-  ArrowRight
+  ArrowRight,
+  TrendingUp,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
 import Button from '../components/Button.jsx';
+import Card from '../components/Card.jsx';
 import FeatureCard from '../components/FeatureCard.jsx';
 import StageCard from '../components/StageCard.jsx';
 import BenefitCard from '../components/BenefitCard.jsx';
+import favicon from '../assets/favicon.jpeg';
 
 const Landing = () => {
   const { user } = useAuth();
@@ -28,42 +32,79 @@ const Landing = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08,
+        staggerChildren: 0.1,
         delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
+      transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] },
     },
   };
 
   return (
     <div className="min-h-screen bg-bg-primary text-text-heading">
-      {/* Hero Section */}
-      <section className="relative pt-28 pb-section px-6 sm:px-8 lg:px-12 overflow-hidden">
-        <div className="max-w-content mx-auto">
+      {/* Hero Section with Animated Background */}
+      <section className="relative pt-32 pb-section-lg px-6 sm:px-8 lg:px-12 overflow-hidden">
+        {/* Animated Background Blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            animate={{
+              x: [0, 100, 0],
+              y: [0, 50, 0],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute top-20 left-10 w-96 h-96 bg-purple-DEFAULT/10 rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{
+              x: [0, -80, 0],
+              y: [0, -60, 0],
+              scale: [1, 1.3, 1],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute bottom-20 right-10 w-96 h-96 bg-purple-neon/10 rounded-full blur-3xl"
+          />
+        </div>
+
+        <div className="max-w-content mx-auto relative z-10">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="max-w-4xl"
+            className="max-w-5xl"
           >
+            <motion.div variants={itemVariants} className="mb-6">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-purple-accent/30 text-purple-neon text-sm font-medium">
+                <Sparkles className="w-4 h-4" />
+                NST E-Cell • Shark Sphere
+              </span>
+            </motion.div>
+
             <motion.h1
               variants={itemVariants}
-              className="text-hero font-semibold mb-6 leading-[1.2] tracking-tight text-text-heading"
+              className="text-hero font-bold mb-6 leading-[1.1] tracking-tight text-text-heading"
             >
               Build Startups. Find Co-Founders. Get Funded.
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="text-body-lg text-text-body mb-10 leading-relaxed max-w-text"
+              className="text-body-lg text-text-body/90 mb-10 leading-relaxed max-w-text"
             >
               A platform for NST students to turn ideas into real companies — with structured validation, mentorship, and eligibility for StartX seed funding up to ₹1 Cr.
             </motion.p>
@@ -74,9 +115,9 @@ const Landing = () => {
                 className="flex flex-wrap items-center gap-4"
               >
                 <Link to="/signup">
-                  <Button size="lg" className="group">
+                  <Button size="lg" variant="neon" className="group">
                     Start Your Startup
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
                 <Link to="/dashboard">
@@ -86,7 +127,7 @@ const Landing = () => {
             ) : (
               <motion.div variants={itemVariants}>
                 <Link to="/dashboard">
-                  <Button size="lg">Go to Dashboard</Button>
+                  <Button size="lg" variant="neon">Go to Ideas</Button>
                 </Link>
               </motion.div>
             )}
@@ -95,17 +136,47 @@ const Landing = () => {
       </section>
 
       {/* Tagline Band */}
-      <section className="py-12 px-6 sm:px-8 lg:px-12 border-y border-border">
+      <section className="py-16 px-6 sm:px-8 lg:px-12 border-y border-border/50">
         <div className="max-w-content mx-auto text-center">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="text-body-lg text-text-heading font-medium max-w-3xl mx-auto"
+            className="text-h3 font-semibold text-text-heading max-w-4xl mx-auto leading-relaxed"
           >
             NST's launchpad for student founders—where ideas grow into startups and startups grow into companies.
           </motion.p>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-section px-6 sm:px-8 lg:px-12">
+        <div className="max-w-content mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { label: 'Active Ideas', value: '50+', icon: Lightbulb },
+              { label: 'Founders', value: '200+', icon: Users },
+              { label: 'Funded Startups', value: '12', icon: DollarSign },
+              { label: 'Success Rate', value: '85%', icon: TrendingUp },
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card glass className="text-center p-6">
+                  <div className="w-12 h-12 rounded-lg bg-purple-DEFAULT/20 flex items-center justify-center mx-auto mb-4">
+                    <stat.icon className="w-6 h-6 text-purple-neon" />
+                  </div>
+                  <div className="text-h2 font-bold text-text-heading mb-2">{stat.value}</div>
+                  <div className="text-sm text-text-muted">{stat.label}</div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -119,7 +190,7 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             className="max-w-text"
           >
-            <h2 className="text-h1 font-semibold mb-6 text-text-heading">What We Do</h2>
+            <h2 className="text-h1 font-bold mb-6 text-text-heading">What We Do</h2>
             <p className="text-body-lg text-text-body leading-relaxed mb-4">
               We help students go from idea → product → funded startup.
             </p>
@@ -131,7 +202,7 @@ const Landing = () => {
       </section>
 
       {/* Why This Platform Exists */}
-      <section className="py-section px-6 sm:px-8 lg:px-12 border-y border-border">
+      <section className="py-section px-6 sm:px-8 lg:px-12 border-y border-border/50">
         <div className="max-w-content mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -140,7 +211,7 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             className="max-w-text"
           >
-            <h2 className="text-h1 font-semibold mb-6 text-text-heading">Why This Platform Exists</h2>
+            <h2 className="text-h1 font-bold mb-6 text-text-heading">Why This Platform Exists</h2>
             <p className="text-body-lg text-text-body leading-relaxed mb-6">
               Most students have ideas. Very few execute.
             </p>
@@ -148,46 +219,26 @@ const Landing = () => {
               We fix that by giving you:
             </p>
             <ul className="space-y-4 list-none pl-0">
-              <motion.li 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4 }}
-                className="flex items-start gap-3 text-body-lg text-text-heading"
-              >
-                <Check className="w-5 h-5 text-purple-accent flex-shrink-0 mt-1" strokeWidth={2} />
-                <span>A committed team</span>
-              </motion.li>
-              <motion.li 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.1 }}
-                className="flex items-start gap-3 text-body-lg text-text-heading"
-              >
-                <Check className="w-5 h-5 text-purple-accent flex-shrink-0 mt-1" strokeWidth={2} />
-                <span>Expert mentorship</span>
-              </motion.li>
-              <motion.li 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                className="flex items-start gap-3 text-body-lg text-text-heading"
-              >
-                <Check className="w-5 h-5 text-purple-accent flex-shrink-0 mt-1" strokeWidth={2} />
-                <span>Clear milestones</span>
-              </motion.li>
-              <motion.li 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.3 }}
-                className="flex items-start gap-3 text-body-lg text-text-heading"
-              >
-                <Check className="w-5 h-5 text-purple-accent flex-shrink-0 mt-1" strokeWidth={2} />
-                <span>Funding pathways</span>
-              </motion.li>
+              {[
+                'A committed team',
+                'Expert mentorship',
+                'Clear milestones',
+                'Funding pathways',
+              ].map((item, index) => (
+                <motion.li
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="flex items-start gap-3 text-body-lg text-text-heading"
+                >
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-DEFAULT/20 flex items-center justify-center mt-0.5">
+                    <Check className="w-4 h-4 text-purple-neon" strokeWidth={2.5} />
+                  </div>
+                  <span>{item}</span>
+                </motion.li>
+              ))}
             </ul>
             <p className="text-body-lg text-text-body leading-relaxed mt-8">
               This is the infrastructure that turns "college projects" into companies.
@@ -206,7 +257,7 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             className="mb-16 max-w-text"
           >
-            <h2 className="text-h1 font-semibold mb-6 text-text-heading">Key Features</h2>
+            <h2 className="text-h1 font-bold mb-6 text-text-heading">Key Features</h2>
             <p className="text-body-lg text-text-body leading-relaxed">
               Everything you need to build and launch your startup.
             </p>
@@ -252,7 +303,7 @@ const Landing = () => {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
           >
-            <h3 className="text-h2 font-semibold mb-10 max-w-text text-text-heading">
+            <h3 className="text-h2 font-bold mb-4 max-w-text text-text-heading">
               Stage-Based Validation
             </h3>
             <p className="text-body-lg text-text-body mb-10 max-w-text">
@@ -295,7 +346,7 @@ const Landing = () => {
       </section>
 
       {/* Why Join */}
-      <section className="py-section px-6 sm:px-8 lg:px-12 border-y border-border">
+      <section className="py-section px-6 sm:px-8 lg:px-12 border-y border-border/50">
         <div className="max-w-content mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -304,33 +355,26 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             className="mb-16 max-w-text"
           >
-            <h2 className="text-h1 font-semibold mb-6 text-text-heading">Why Join?</h2>
+            <h2 className="text-h1 font-bold mb-6 text-text-heading">Why Join?</h2>
             <p className="text-body-lg text-text-body leading-relaxed">
               Join hundreds of founders building the next generation of startups.
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <BenefitCard 
-              title="Build a real startup, not a classroom project" 
-              delay={0} 
-            />
-            <BenefitCard 
-              title="Find serious co-founders" 
-              delay={0.05} 
-            />
-            <BenefitCard 
-              title="Validate faster" 
-              delay={0.1} 
-            />
-            <BenefitCard 
-              title="Stand out in placements and pitch events" 
-              delay={0.15} 
-            />
-            <BenefitCard 
-              title="Access mentorship + funding pipeline" 
-              delay={0.2} 
-            />
+            {[
+              'Build a real startup, not a classroom project',
+              'Find serious co-founders',
+              'Validate faster',
+              'Stand out in placements and pitch events',
+              'Access mentorship + funding pipeline',
+            ].map((benefit, index) => (
+              <BenefitCard 
+                key={index}
+                title={benefit} 
+                delay={index * 0.05} 
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -345,7 +389,7 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             className="max-w-text"
           >
-            <h2 className="text-h1 font-semibold mb-6 text-text-heading">About Shark Sphere</h2>
+            <h2 className="text-h1 font-bold mb-6 text-text-heading">About Shark Sphere</h2>
             <p className="text-body-lg text-text-body leading-relaxed">
               Shark Sphere is the entrepreneurial backbone of NST — where ideas get built, teams get formed, and students become founders.
             </p>
@@ -354,28 +398,31 @@ const Landing = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-section-lg px-6 sm:px-8 lg:px-12 border-y border-border">
-        <div className="max-w-content mx-auto text-center">
+      <section className="py-section-lg px-6 sm:px-8 lg:px-12 border-y border-border/50 relative overflow-hidden">
+        {/* Background Glow */}
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-DEFAULT/5 via-purple-neon/5 to-purple-DEFAULT/5" />
+        
+        <div className="max-w-content mx-auto text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-h1 font-semibold mb-6 text-text-heading">Start Building</h2>
+            <h2 className="text-h1 font-bold mb-6 text-text-heading">Start Building</h2>
             <p className="text-body-lg text-text-body mb-10 leading-relaxed max-w-text mx-auto">
               Become part of NST's startup ecosystem. Your co-founder, your team, and your funding are one click away.
             </p>
             {!user ? (
               <Link to="/signup">
-                <Button size="lg" className="group">
+                <Button size="lg" variant="neon" className="group">
                   Register Now
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
             ) : (
               <Link to="/dashboard">
-                <Button size="lg">Go to Dashboard</Button>
+                <Button size="lg" variant="neon">Go to Ideas</Button>
               </Link>
             )}
           </motion.div>
@@ -383,37 +430,37 @@ const Landing = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-16 px-6 sm:px-8 lg:px-12 border-t border-border bg-bg-primary">
+      <footer className="py-16 px-6 sm:px-8 lg:px-12 border-t border-border/50 bg-bg-primary">
         <div className="max-w-content mx-auto">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-8">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-card bg-purple-accent flex items-center justify-center">
-                <span className="text-white font-bold text-lg">E</span>
+              <div className="w-11 h-11 rounded-lg overflow-hidden shadow-glow-purple">
+                <img src={favicon} alt="NST E-Cell Logo" className="w-full h-full object-cover" />
               </div>
               <div>
                 <div className="font-bold text-text-heading">NST E-Cell</div>
-                <div className="text-xs text-text-muted font-semibold uppercase tracking-wider">Shark Sphere</div>
+                <div className="text-xs text-purple-neon font-semibold uppercase tracking-wider">Shark Sphere</div>
               </div>
             </div>
             <ul className="flex flex-wrap justify-center sm:justify-end gap-x-8 gap-y-4 text-sm">
               <li>
-                <Link to="/dashboard" className="text-text-body hover:text-purple-accent transition-colors">
-                  Dashboard
+                <Link to="/dashboard" className="text-text-body hover:text-purple-neon transition-colors">
+                  Ideas
                 </Link>
               </li>
               <li>
-                <Link to="/create-idea" className="text-text-body hover:text-purple-accent transition-colors">
+                <Link to="/create-idea" className="text-text-body hover:text-purple-neon transition-colors">
                   Create Idea
                 </Link>
               </li>
               <li>
-                <a href="mailto:ecell@nst.edu.in" className="text-text-body hover:text-purple-accent transition-colors">
+                <a href="mailto:ecell@nst.edu.in" className="text-text-body hover:text-purple-neon transition-colors">
                   Contact Us
                 </a>
               </li>
             </ul>
           </div>
-          <div className="pt-8 mt-8 border-t border-border text-center text-sm text-text-muted">
+          <div className="pt-8 mt-8 border-t border-border/50 text-center text-sm text-text-muted">
             <p>© {new Date().getFullYear()} NST E-Cell. All rights reserved.</p>
           </div>
         </div>

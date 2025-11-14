@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useAuth } from '../context/AuthContext.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
 import Navbar from '../components/Navbar.jsx';
 import Landing from '../pages/Landing.jsx';
@@ -47,11 +48,40 @@ const AnimatedRoutes = () => {
   );
 };
 
+const RouterContent = () => {
+  const { loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-bg-primary text-text-heading flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center"
+        >
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+            className="w-16 h-16 border-4 border-purple-DEFAULT border-t-transparent rounded-full mx-auto mb-4"
+          />
+          <p className="text-text-body font-medium">Loading...</p>
+        </motion.div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Navbar />
+      <AnimatedRoutes />
+    </>
+  );
+};
+
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <Navbar />
-      <AnimatedRoutes />
+      <RouterContent />
     </BrowserRouter>
   );
 };

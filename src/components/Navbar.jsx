@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useTheme } from '../context/ThemeContext.jsx';
 import Button from './Button.jsx';
+import favicon from '../assets/favicon.jpeg';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -22,25 +23,25 @@ const Navbar = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-      className="sticky top-0 z-50 bg-bg-primary/95 backdrop-blur-xl border-b border-border"
+      className="sticky top-0 z-50 glass-strong border-b border-border/50"
     >
       <div className="max-w-content mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex justify-between items-center h-20">
           <Link to="/" className="flex items-center gap-3 group">
             <motion.div
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, rotate: 5 }}
               whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 rounded-card bg-purple-accent flex items-center justify-center"
+              className="w-11 h-11 rounded-lg overflow-hidden shadow-glow-purple"
             >
-              <span className="text-white font-bold text-lg">E</span>
+              <img src={favicon} alt="NST E-Cell Logo" className="w-full h-full object-cover" />
             </motion.div>
             <div>
               <div className="text-lg font-bold text-text-heading">NST E-Cell</div>
-              <div className="text-[10px] text-text-muted font-semibold tracking-wider uppercase">Shark Sphere</div>
+              <div className="text-[10px] text-purple-neon font-semibold tracking-wider uppercase">Shark Sphere</div>
             </div>
           </Link>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {user ? (
               <>
                 <NavLink to="/" isActive={isActive('/')}>
@@ -57,7 +58,7 @@ const Navbar = () => {
                 </NavLink>
                 <button
                   onClick={handleLogout}
-                  className="ml-4 px-4 py-2 text-sm font-medium text-text-body hover:text-text-heading transition-colors"
+                  className="ml-2 px-4 py-2 text-sm font-medium text-text-body hover:text-text-heading hover:bg-bg-secondary/50 rounded-lg transition-all duration-200"
                 >
                   Logout
                 </button>
@@ -67,14 +68,14 @@ const Navbar = () => {
                 <NavLink to="/login" isActive={isActive('/login')}>
                   Login
                 </NavLink>
-                <Link to="/signup" className="ml-4">
-                  <Button size="sm">Register</Button>
+                <Link to="/signup" className="ml-2">
+                  <Button size="sm" variant="neon">Register</Button>
                 </Link>
               </>
             )}
             <button
               onClick={toggleTheme}
-              className="ml-4 p-2 rounded-card hover:bg-bg-secondary transition-colors"
+              className="ml-2 p-2.5 rounded-lg hover:bg-bg-secondary/50 transition-all duration-200"
               aria-label="Toggle theme"
             >
               {theme === 'dark' ? (
@@ -98,16 +99,16 @@ const NavLink = ({ to, isActive, children }) => {
   return (
     <Link
       to={to}
-      className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-card ${
+      className={`relative px-4 py-2.5 text-sm font-medium transition-all duration-200 rounded-lg ${
         isActive
-          ? 'text-purple-accent'
+          ? 'text-purple-neon'
           : 'text-text-body hover:text-text-heading'
       }`}
     >
       {isActive && (
         <motion.div
           layoutId="activeTab"
-          className="absolute inset-0 bg-bg-secondary border border-border rounded-card -z-10"
+          className="absolute inset-0 bg-bg-secondary/80 backdrop-blur-sm border border-purple-accent/30 rounded-lg -z-10 shadow-glow-purple"
           transition={{ type: 'spring', stiffness: 380, damping: 30 }}
         />
       )}
