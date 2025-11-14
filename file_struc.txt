@@ -1,0 +1,68 @@
+entrepreneurship-club/
+│
+├── client/                          # Frontend (React + Vite)
+│   ├── public/
+│   │
+│   ├── src/
+│   │   ├── components/              # All components
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── LoginForm.jsx
+│   │   │   ├── RegisterForm.jsx
+│   │   │   ├── IdeaCard.jsx
+│   │   │   ├── IdeaForm.jsx
+│   │   │   └── VoteButton.jsx
+│   │   │
+│   │   ├── pages/                   # Pages
+│   │   │   ├── Home.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   └── IdeaDetail.jsx
+│   │   │
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx      # Auth state management
+│   │   │
+│   │   ├── api/
+│   │   │   └── api.js               # All API calls in one file
+│   │   │
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   │
+│   ├── .env
+│   ├── package.json
+│   └── vite.config.js
+│
+│
+├── server/                          # Backend (Node + Express)
+│   ├── prisma/
+│   │   ├── schema.prisma
+│   │   └── migrations/
+│   │
+│   ├── controllers/                 # Route handlers
+│   │   ├── authController.js
+│   │   ├── ideaController.js
+│   │   └── voteController.js
+│   │
+│   ├── middleware/
+│   │   └── auth.js                  # JWT verification middleware
+│   │
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── ideaRoutes.js
+│   │   └── voteRoutes.js
+│   │
+│   ├── utils/
+│   │   ├── jwt.js                   # JWT helper functions
+│   │   └── validators.js            # Input validation
+│   │
+│   ├── config/
+│   │   └── db.js                    # Prisma client
+│   │
+│   ├── app.js                       # Express app setup
+│   └── server.js                    # Server entry point
+│   │
+│   ├── .env
+│   └── package.json
+│
+└── README.md
