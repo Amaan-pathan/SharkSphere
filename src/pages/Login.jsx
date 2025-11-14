@@ -26,12 +26,20 @@ const Login = () => {
         navigate('/dashboard');
       }
     } catch (err) {
+      console.error('Login error:', err);
+      console.error('Error response:', err.response);
+      console.error('Error message:', err.message);
+      
       if (err.response?.status === 403) {
         setError('Please verify your email before logging in. Check your inbox for the verification link.');
       } else if (err.response?.data?.errors && Array.isArray(err.response.data.errors)) {
         setError(err.response.data.errors.join(', '));
+      } else if (err.response?.data?.message) {
+        setError(err.response.data.message);
+      } else if (err.message) {
+        setError(`Error: ${err.message}. Check console for details.`);
       } else {
-        setError(err.response?.data?.message || 'Login failed. Please try again.');
+        setError('Login failed. Please try again. Check browser console for details.');
       }
     } finally {
       setLoading(false);

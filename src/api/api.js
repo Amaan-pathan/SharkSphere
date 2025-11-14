@@ -4,13 +4,13 @@ import axios from 'axios';
 // In production, use VITE_API_URL if set
 const getBaseURL = () => {
   if (import.meta.env.DEV) {
-    // Development: use Vite proxy (relative path)
+    // Development: use Vite proxy (relative path) - this bypasses CORS
     return '/api';
   }
   // Production: use environment variable or default
-  return import.meta.env.VITE_API_URL 
-    ? `${import.meta.env.VITE_API_URL}/api` 
-    : '/api';
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://sharkssphere-backend.onrender.com';
+  // Ensure we append /api if not already present
+  return apiUrl.endsWith('/api') ? apiUrl : `${apiUrl}/api`;
 };
 
 const api = axios.create({
@@ -38,6 +38,19 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Log detailed error for debugging
+    console.error('API Error:', {
+      message: error.message,
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      config: {
+        url: error.config?.url,
+        method: error.config?.method,
+        baseURL: error.config?.baseURL,
+      }
+    });
+
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
