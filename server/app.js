@@ -9,9 +9,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 dotenv.config();
 
-// CORS configuration - Allow requests from Vercel frontend and localhost
+// CORS configuration - Allow requests from frontend domains
 const allowedOrigins = [
   'https://sharks-sphere.vercel.app', // Your Vercel frontend
+  /^https:\/\/.*\.onrender\.com$/, // All Render static sites
   'http://localhost:5173', // Local development
   'http://localhost:3000', // Local backend (if needed)
 ];
@@ -21,7 +22,17 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    // Check if origin matches any allowed origin (string or regex)
+    const isAllowed = allowedOrigins.some(allowed => {
+      if (typeof allowed === 'string') {
+        return origin === allowed;
+      } else if (allowed instanceof RegExp) {
+        return allowed.test(origin);
+      }
+      return false;
+    });
+    
+    if (isAllowed) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));

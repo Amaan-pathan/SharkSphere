@@ -16,7 +16,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #0D0D0D;
   color: #FFFFFF;
-  transition: background-color 0.2s, color 0.2s;
 }
 
 /* Custom scrollbar */
@@ -29,23 +28,23 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #C6972D;
+  background: #262626;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #D4AF37;
+  background: #7B5FFF;
 }
 
 /* Selection */
 ::selection {
-  background-color: rgba(212, 175, 55, 0.3);
+  background-color: rgba(123, 95, 255, 0.3);
   color: inherit;
 }
 
 /* Focus visible */
 *:focus-visible {
-  outline: 2px solid #D4AF37;
+  outline: 2px solid #7B5FFF;
   outline-offset: 2px;
 }
 

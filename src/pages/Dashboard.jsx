@@ -1,20 +1,25 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { getAllIdeas } from '../api/ideas.js';
+import { Trash2, Eye } from 'lucide-react';
+import { getAllIdeas, deleteIdea } from '../api/ideas.js';
 import { toggleVote } from '../api/votes.js';
 import { useAuth } from '../context/AuthContext.jsx';
 import Button from '../components/Button.jsx';
 import Card from '../components/Card.jsx';
 import Input from '../components/Input.jsx';
+import IdeaModal from '../components/IdeaModal.jsx';
 
 const Dashboard = () => {
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [votingIds, setVotingIds] = useState(new Set());
+  const [deletingIds, setDeletingIds] = useState(new Set());
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('newest');
+  const [selectedIdea, setSelectedIdea] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -62,6 +67,43 @@ const Dashboard = () => {
     }
   };
 
+  const handleDelete = async (ideaId) => {
+    if (!window.confirm('Are you sure you want to delete this idea? This action cannot be undone.')) {
+      return;
+    }
+
+    if (deletingIds.has(ideaId)) return;
+
+    setDeletingIds((prev) => new Set(prev).add(ideaId));
+
+    try {
+      const response = await deleteIdea(ideaId);
+      if (response.success) {
+        // Remove the idea from the list
+        setIdeas((prevIdeas) => prevIdeas.filter((idea) => idea.id !== ideaId));
+        // Close modal if the deleted idea was open
+        if (selectedIdea?.id === ideaId) {
+          setIsModalOpen(false);
+          setSelectedIdea(null);
+        }
+      }
+    } catch (err) {
+      console.error('Delete failed:', err);
+      alert(err.response?.data?.message || 'Failed to delete idea. Please try again.');
+    } finally {
+      setDeletingIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(ideaId);
+        return newSet;
+      });
+    }
+  };
+
+  const handleViewDetails = (idea) => {
+    setSelectedIdea(idea);
+    setIsModalOpen(true);
+  };
+
   const filteredAndSortedIdeas = useMemo(() => {
     let filtered = ideas;
 
@@ -86,7 +128,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-navy text-gray-900 dark:text-white flex items-center justify-center pt-20">
+      <div className="min-h-screen bg-bg-primary text-text-heading flex items-center justify-center pt-20">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -95,9 +137,9 @@ const Dashboard = () => {
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-            className="w-12 h-12 border-4 border-accent border-t-transparent rounded-full mx-auto mb-4"
+            className="w-12 h-12 border-4 border-purple-accent border-t-transparent rounded-full mx-auto mb-4"
           />
-          <p className="text-gray-600 dark:text-gray-400">Loading ideas...</p>
+          <p className="text-text-body">Loading ideas...</p>
         </motion.div>
       </div>
     );
@@ -105,9 +147,9 @@ const Dashboard = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-white dark:bg-navy text-gray-900 dark:text-white flex items-center justify-center pt-20">
+      <div className="min-h-screen bg-bg-primary text-text-heading flex items-center justify-center pt-20">
         <div className="text-center">
-          <div className="text-red-500 mb-4">{error}</div>
+          <div className="text-red-400 mb-4">{error}</div>
           <Button onClick={fetchIdeas}>Try Again</Button>
         </div>
       </div>
@@ -115,8 +157,8 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-navy text-gray-900 dark:text-white pt-24 pb-16 px-6 sm:px-8 lg:px-12">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-bg-primary text-text-heading pt-24 pb-16 px-6 sm:px-8 lg:px-12">
+      <div className="max-w-content mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -125,8 +167,8 @@ const Dashboard = () => {
           className="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
         >
           <div>
-            <h1 className="text-h1 font-bold mb-3">Ideas Hub</h1>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
+            <h1 className="text-h1 font-semibold mb-3 text-text-heading">Ideas Hub</h1>
+            <p className="text-body-lg text-text-body">
               Explore and vote on innovative ideas from the community
             </p>
           </div>
@@ -154,7 +196,7 @@ const Dashboard = () => {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="px-4 py-3 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent"
+            className="px-4 py-3 bg-bg-secondary border border-border rounded-card text-text-heading focus:outline-none focus:ring-2 focus:ring-purple-accent"
           >
             <option value="newest">Newest First</option>
             <option value="votes">Most Voted</option>
@@ -169,10 +211,10 @@ const Dashboard = () => {
             className="text-center py-32"
           >
             <div className="text-6xl mb-6">💡</div>
-            <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+            <h2 className="text-h2 font-semibold mb-4 text-text-heading">
               {searchQuery ? 'No ideas found' : 'No ideas yet'}
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto">
+            <p className="text-body-lg text-text-body mb-8 max-w-md mx-auto">
               {searchQuery
                 ? 'Try adjusting your search terms'
                 : 'Be the first to share an innovative idea with the community'}
@@ -198,14 +240,32 @@ const Dashboard = () => {
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.3, delay: index * 0.03 }}
                     layout
+                    className="h-full"
                   >
-                    <Card hover className="h-full flex flex-col">
-                      <div className="flex-1 mb-6">
-                        <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white line-clamp-2">
-                          {idea.title}
-                        </h3>
+                    <Card hover className="h-full flex flex-col min-h-[320px]">
+                      <div className="flex-1 mb-4 flex flex-col">
+                        <div className="flex items-start justify-between gap-3 mb-3">
+                          <h3 className="text-h3 font-semibold text-text-heading line-clamp-2 flex-1">
+                            {idea.title}
+                          </h3>
+                          {user && idea.author.id === user.id && (
+                            <motion.button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDelete(idea.id);
+                              }}
+                              disabled={deletingIds.has(idea.id)}
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              className="flex-shrink-0 p-2 rounded-card text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                              title="Delete idea"
+                            >
+                              <Trash2 className="w-4 h-4" strokeWidth={2} />
+                            </motion.button>
+                          )}
+                        </div>
                         <p
-                          className="text-gray-600 dark:text-gray-400 leading-relaxed text-sm line-clamp-4"
+                          className="text-body text-text-body leading-relaxed line-clamp-4 flex-1 mb-4"
                           style={{
                             display: '-webkit-box',
                             WebkitLineClamp: 4,
@@ -215,16 +275,25 @@ const Dashboard = () => {
                         >
                           {idea.description}
                         </p>
+                        <motion.button
+                          onClick={() => handleViewDetails(idea)}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="flex items-center gap-2 text-sm font-medium text-purple-accent hover:text-purple-accent/80 transition-colors mb-4"
+                        >
+                          <Eye className="w-4 h-4" />
+                          View Details
+                        </motion.button>
                       </div>
 
-                      <div className="pt-6 border-t border-gray-200 dark:border-white/10">
+                      <div className="pt-4 border-t border-border mt-auto">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-white text-xs font-bold">
+                            <div className="w-8 h-8 rounded-card bg-purple-accent flex items-center justify-center text-white text-xs font-bold">
                               {idea.author.name.charAt(0).toUpperCase()}
                             </div>
                             <div>
-                              <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                              <div className="text-sm font-semibold text-text-heading">
                                 {idea.author.name}
                               </div>
                             </div>
@@ -232,14 +301,17 @@ const Dashboard = () => {
 
                           <div className="flex items-center gap-3">
                             <motion.button
-                              onClick={() => handleVote(idea.id, 'UPVOTE')}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleVote(idea.id, 'UPVOTE');
+                              }}
                               disabled={votingIds.has(idea.id)}
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
-                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all ${
+                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-card text-sm font-semibold transition-all ${
                                 isPositive
-                                  ? 'bg-accent/10 text-accent border border-accent/20'
-                                  : 'bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-white/10'
+                                  ? 'bg-purple-accent/10 text-purple-accent border border-purple-accent/20'
+                                  : 'bg-bg-primary border border-border text-text-body'
                               }`}
                             >
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -249,7 +321,7 @@ const Dashboard = () => {
                             </motion.button>
                             <div
                               className={`text-base font-bold min-w-[2rem] text-center ${
-                                isPositive ? 'text-accent' : 'text-gray-500 dark:text-gray-400'
+                                isPositive ? 'text-purple-accent' : 'text-text-muted'
                               }`}
                             >
                               {voteCount > 0 ? '+' : ''}{voteCount}
@@ -265,6 +337,16 @@ const Dashboard = () => {
           </div>
         )}
       </div>
+
+      {/* Idea Detail Modal */}
+      <IdeaModal
+        idea={selectedIdea}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedIdea(null);
+        }}
+      />
     </div>
   );
 };

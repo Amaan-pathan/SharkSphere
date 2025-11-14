@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { register as registerApi } from '../api/auth.js';
 import Input from '../components/Input.jsx';
 import Button from '../components/Button.jsx';
+import Card from '../components/Card.jsx';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -40,7 +41,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-navy flex items-center justify-center px-6 sm:px-8 py-12 pt-24">
+    <div className="min-h-screen bg-bg-primary flex items-center justify-center px-6 sm:px-8 py-12 pt-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -49,25 +50,25 @@ const Signup = () => {
       >
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-accent flex items-center justify-center">
+            <div className="w-12 h-12 rounded-card bg-purple-accent flex items-center justify-center">
               <span className="text-white font-bold text-xl">E</span>
             </div>
             <div className="text-left">
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">E-Cell</div>
-              <div className="text-xs text-gold font-semibold tracking-wider uppercase">NST</div>
+              <div className="text-2xl font-bold text-text-heading">NST E-Cell</div>
+              <div className="text-xs text-text-muted font-semibold tracking-wider uppercase">Shark Sphere</div>
             </div>
           </div>
-          <h1 className="text-4xl font-bold mb-3 text-gray-900 dark:text-white">Create Account</h1>
-          <p className="text-gray-600 dark:text-gray-400">Start your entrepreneurial journey today</p>
+          <h1 className="text-h1 font-semibold mb-3 text-text-heading">Create Account</h1>
+          <p className="text-body-lg text-text-body">Start your entrepreneurial journey today</p>
         </div>
 
-        <div className="bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-2xl p-8 shadow-card">
+        <Card className="p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             {success && (
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="bg-green-50 dark:bg-green-500/10 border border-green-200 dark:border-green-500/30 text-green-700 dark:text-green-300 px-4 py-3 rounded-xl text-sm"
+                className="bg-green-500/10 border border-green-500/30 text-green-400 px-4 py-3 rounded-card text-sm"
               >
                 {success}
               </motion.div>
@@ -76,7 +77,7 @@ const Signup = () => {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-700 dark:text-red-300 px-4 py-3 rounded-xl text-sm"
+                className="bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-card text-sm"
               >
                 {error}
               </motion.div>
@@ -121,13 +122,13 @@ const Signup = () => {
             </Button>
           </form>
 
-          <p className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className="mt-8 text-center text-sm text-text-body">
             Already have an account?{' '}
-            <Link to="/login" className="text-accent hover:text-accent-dark font-semibold transition-colors">
+            <Link to="/login" className="text-purple-accent hover:text-purple-accent/80 font-semibold transition-colors">
               Sign in
             </Link>
           </p>
-        </div>
+        </Card>
       </motion.div>
     </div>
   );

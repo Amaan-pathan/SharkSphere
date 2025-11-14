@@ -11,12 +11,12 @@ const Button = ({
   className = '',
   ...props 
 }) => {
-  const baseStyles = 'font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles = 'font-semibold rounded-card transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-bg-primary disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variants = {
-    primary: 'bg-gold hover:bg-gold-hover text-black focus:ring-gold shadow-glow-gold',
-    secondary: 'bg-surface border border-gold-muted text-gold-muted hover:bg-surface hover:border-gold',
-    ghost: 'text-text-secondary hover:text-text-primary hover:bg-surface',
+    primary: 'bg-purple-accent hover:bg-purple-accent/90 text-white focus:ring-purple-accent',
+    secondary: 'bg-bg-secondary border border-border text-text-body hover:bg-bg-secondary/80 hover:border-purple-accent/30',
+    ghost: 'text-text-body hover:text-text-heading hover:bg-bg-secondary',
   };
 
   const sizes = {
@@ -30,8 +30,8 @@ const Button = ({
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
-      whileHover={{ scale: disabled || loading ? 1 : 1.02 }}
-      whileTap={{ scale: disabled || loading ? 1 : 0.98 }}
+      whileHover={disabled || loading ? {} : { scale: 1.02 }}
+      whileTap={disabled || loading ? {} : { scale: 0.98 }}
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} flex items-center justify-center ${className}`}
       {...props}
     >
