@@ -167,7 +167,7 @@ const Dashboard = () => {
           className="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
         >
           <div>
-            <h1 className="text-h1 font-semibold mb-3 text-text-heading">Ideas Hub</h1>
+            <h1 className="text-h1 font-semibold mb-3 text-text-heading">Ideas</h1>
             <p className="text-body-lg text-text-body">
               Explore and vote on innovative ideas from the community
             </p>

@@ -43,8 +43,11 @@ const Navbar = () => {
           <div className="flex items-center gap-2">
             {user ? (
               <>
+                <NavLink to="/" isActive={isActive('/')}>
+                  Home
+                </NavLink>
                 <NavLink to="/dashboard" isActive={isActive('/dashboard')}>
-                  Dashboard
+                  Ideas
                 </NavLink>
                 <NavLink to="/create-idea" isActive={isActive('/create-idea')}>
                   Create

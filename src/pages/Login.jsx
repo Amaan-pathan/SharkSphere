@@ -24,7 +24,7 @@ const Login = () => {
       const response = await loginApi(email, password);
       if (response.success) {
         login(response.user, response.token);
-        navigate('/dashboard');
+        navigate('/');
       }
     } catch (err) {
       console.error('Login error:', err);
