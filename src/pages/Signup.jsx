@@ -51,9 +51,31 @@ const Signup = () => {
       }
     } catch (err) {
       console.error('Registration error:', err);
+      console.error('Error response data:', err.response?.data);
+      
       // Handle timeout/network errors
       if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
-        setError('Connection timeout. The backend server may not be running or is taking too long to respond. Please check if the server is running at http://localhost:5000 and try again.');
+        setError('Connection timeout. The backend server may not be running or is taking too long to respond. Please try again.');
+      } else if (err.response?.status === 400) {
+        // 400 Bad Request - usually validation errors
+        const errorData = err.response?.data;
+        
+        if (errorData?.errors && Array.isArray(errorData.errors)) {
+          // Backend validation errors array
+          setError(errorData.errors.join('. '));
+        } else if (errorData?.errors && typeof errorData.errors === 'string') {
+          // Single error string
+          setError(errorData.errors);
+        } else if (errorData?.message) {
+          // Error message
+          setError(errorData.message);
+        } else if (errorData?.error) {
+          // Error field
+          setError(Array.isArray(errorData.error) ? errorData.error.join('. ') : String(errorData.error));
+        } else {
+          // Fallback for 400 errors
+          setError('Validation failed. Please check your input: Email must be from @adypu.edu.in domain, password must be at least 8 characters with uppercase, lowercase, and a number.');
+        }
       } else if (err.response?.data?.errors && Array.isArray(err.response.data.errors)) {
         // Show validation errors from backend
         setError(err.response.data.errors.join('. '));
