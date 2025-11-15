@@ -3,14 +3,23 @@ import axios from 'axios';
 // In development, use Vite proxy to avoid CORS issues
 // In production, use VITE_API_URL if set
 const getBaseURL = () => {
-  if (import.meta.env.DEV) {
+  // Check if we're in development mode
+  const isDev = import.meta.env.DEV || import.meta.env.MODE === 'development';
+  
+  if (isDev) {
     // Development: use Vite proxy (relative path) - this bypasses CORS
     return '/api';
   }
+  
   // Production: use environment variable or default
   const apiUrl = import.meta.env.VITE_API_URL || 'https://sharkssphere-backend.onrender.com';
   // Ensure we append /api if not already present
-  return apiUrl.endsWith('/api') ? apiUrl : `${apiUrl}/api`;
+  const baseURL = apiUrl.endsWith('/api') ? apiUrl : `${apiUrl}/api`;
+  
+  // Log in production for debugging (can be removed later)
+  console.log('API Base URL:', baseURL);
+  
+  return baseURL;
 };
 
 const api = axios.create({
@@ -28,15 +37,15 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    // Debug logging in development
-    if (import.meta.env.DEV) {
-      console.log('API Request:', {
-        method: config.method,
-        url: config.url,
-        baseURL: config.baseURL,
-        fullURL: `${config.baseURL}${config.url}`
-      });
-    }
+    // Debug logging (always log in production for troubleshooting)
+    console.log('API Request:', {
+      method: config.method,
+      url: config.url,
+      baseURL: config.baseURL,
+      fullURL: `${config.baseURL}${config.url}`,
+      env: import.meta.env.MODE,
+      isDev: import.meta.env.DEV
+    });
     return config;
   },
   (error) => {
@@ -48,10 +57,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Only log detailed errors in development, and skip timeout errors
-    if (import.meta.env.DEV && error.code !== 'ECONNABORTED') {
+    // Log errors (always log in production for troubleshooting, skip timeout in dev)
+    if (error.code !== 'ECONNABORTED' || !import.meta.env.DEV) {
       console.error('API Error:', {
         message: error.message,
+        code: error.code,
         status: error.response?.status,
         statusText: error.response?.statusText,
         data: error.response?.data,
@@ -59,7 +69,10 @@ api.interceptors.response.use(
           url: error.config?.url,
           method: error.config?.method,
           baseURL: error.config?.baseURL,
-        }
+          fullURL: `${error.config?.baseURL}${error.config?.url}`,
+        },
+        env: import.meta.env.MODE,
+        isDev: import.meta.env.DEV
       });
     }
 
