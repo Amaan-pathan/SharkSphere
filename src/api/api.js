@@ -27,7 +27,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 30000, // 30 second timeout for all requests (increased for slow backend)
+  timeout: 60000, // 60 second timeout for production (Render free tier can be slow to wake up)
 });
 
 // Request interceptor to add token
@@ -56,7 +56,21 @@ api.interceptors.request.use(
 // Response interceptor to handle errors
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    // Retry logic for timeout errors in production (Render free tier cold starts)
+    if (error.code === 'ECONNABORTED' && !import.meta.env.DEV && error.config) {
+      error.config.__retryCount = error.config.__retryCount || 0;
+      const maxRetries = 1; // Retry once
+      
+      if (error.config.__retryCount < maxRetries) {
+        error.config.__retryCount += 1;
+        console.log(`Retrying request (attempt ${error.config.__retryCount}/${maxRetries})...`);
+        // Wait 3 seconds before retry to give backend time to wake up
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        return api.request(error.config);
+      }
+    }
+
     // Log errors (always log in production for troubleshooting, skip timeout in dev)
     if (error.code !== 'ECONNABORTED' || !import.meta.env.DEV) {
       console.error('API Error:', {

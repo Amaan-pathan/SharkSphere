@@ -55,7 +55,12 @@ const Signup = () => {
       
       // Handle timeout/network errors
       if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
-        setError('Connection timeout. The backend server may not be running or is taking too long to respond. Please try again.');
+        const isProduction = !import.meta.env.DEV;
+        if (isProduction) {
+          setError('The backend server is taking too long to respond. This might be because it\'s waking up from sleep (Render free tier). Please wait a moment and try again. The first request after inactivity can take up to 60 seconds.');
+        } else {
+          setError('Connection timeout. The backend server may not be running or is taking too long to respond. Please check if the server is running at http://localhost:3000 and try again.');
+        }
       } else if (err.response?.status === 400) {
         // 400 Bad Request - usually validation errors
         const errorData = err.response?.data;
