@@ -10,8 +10,7 @@ export default defineConfig({
         target: process.env.VITE_BACKEND_URL || 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '/api'), // Keep /api in the path
-        timeout: 30000, // 30 second timeout for proxy
+        // No rewrite needed - keep /api in the path
       },
     },
   },
