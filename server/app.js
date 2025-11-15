@@ -11,11 +11,8 @@ dotenv.config();
 
 // CORS configuration - Allow requests from frontend domains
 const allowedOrigins = [
-  'https://sharks-sphere.vercel.app', // Your Vercel frontend
-  /^https:\/\/.*\.onrender\.com$/, // All Render static sites
-  'http://localhost:5173', // Local development
-  'http://localhost:3000',
-  'https://sharks-sphere.vercel.app/' // Local backend (if needed)
+  'http://localhost:5173', // Local frontend
+  'http://localhost:3000', // Local backend
 ];
 
 app.use(cors({

@@ -10,7 +10,7 @@ export const sendVerificationEmail = async (email, token) => {
     }
   });
 
-  const verificationUrl = `${process.env.VITE_API_URL}/api/auth/verify-email/${token}`;
+  const verificationUrl = `http://localhost:3000/api/auth/verify-email/${token}`;
   console.log(verificationUrl);
 
   await transporter.sendMail({

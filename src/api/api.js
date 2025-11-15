@@ -5,20 +5,13 @@ import axios from 'axios';
 const getBaseURL = () => {
   // Check if we're in development mode
   const isDev = import.meta.env.DEV || import.meta.env.MODE === 'development';
-  
   if (isDev) {
-    // Development: use Vite proxy (relative path) - this bypasses CORS
-    return '/api';
+    // Development: use localhost directly
+    return 'http://localhost:3000/api';
   }
-  
   // Production: use environment variable or default
-  const apiUrl = import.meta.env.VITE_API_URL || 'https://sharkssphere-backend.onrender.com';
-  // Ensure we append /api if not already present
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
   const baseURL = apiUrl.endsWith('/api') ? apiUrl : `${apiUrl}/api`;
-  
-  // Log in production for debugging (can be removed later)
-  console.log('API Base URL:', baseURL);
-  
   return baseURL;
 };
 
