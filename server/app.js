@@ -10,10 +10,13 @@ const PORT = process.env.PORT || 3000;
 dotenv.config();
 
 // CORS configuration - Allow requests from frontend domains
-const allowedOrigins = [
-  'http://localhost:5173', // Local frontend
-  'http://localhost:3000', // Local backend
-];
+// const allowedOrigins = [
+//   'http://localhost:5173', // Local frontend
+//   'https://sharksphere.onrender.com', // Local backend
+// ];
+// by gpt
+const allowedOrigins = ["http://localhost:5173"];
+
 
 app.use(cors({
   origin: function (origin, callback) {

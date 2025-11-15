@@ -7,10 +7,10 @@ const getBaseURL = () => {
   const isDev = import.meta.env.DEV || import.meta.env.MODE === 'development';
   if (isDev) {
     // Development: use localhost directly
-    return 'http://localhost:3000/api';
+    return 'https://sharksphere.onrender.com/api';
   }
   // Production: use environment variable or default
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  const apiUrl = import.meta.env.VITE_API_URL || 'https://sharksphere.onrender.com';
   const baseURL = apiUrl.endsWith('/api') ? apiUrl : `${apiUrl}/api`;
   return baseURL;
 };

@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'https://sharksphere.onrender.com',
         changeOrigin: true,
         secure: false,
         // No rewrite needed - keep /api in the path
