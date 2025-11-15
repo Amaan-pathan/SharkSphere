@@ -22,6 +22,25 @@ const Signup = () => {
     setSuccess('');
     setLoading(true);
 
+    // Frontend validation
+    if (!email.endsWith('@adypu.edu.in')) {
+      setError('Email must be from @adypu.edu.in domain');
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long');
+      setLoading(false);
+      return;
+    }
+
+    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+      setError('Password must contain at least one uppercase letter, one lowercase letter, and one number');
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await registerApi(email, password, name);
       if (response.success) {
@@ -31,13 +50,26 @@ const Signup = () => {
         }, 3000);
       }
     } catch (err) {
+      console.error('Registration error:', err);
       // Handle timeout/network errors
       if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
-        setError('Connection timeout. Please check if the backend server is running and try again.');
+        setError('Connection timeout. The backend server may not be running or is taking too long to respond. Please check if the server is running at http://localhost:5000 and try again.');
       } else if (err.response?.data?.errors && Array.isArray(err.response.data.errors)) {
-        setError(err.response.data.errors.join(', '));
+        // Show validation errors from backend
+        setError(err.response.data.errors.join('. '));
+      } else if (err.response?.data?.message) {
+        // Show error message from backend
+        setError(err.response.data.message);
+      } else if (err.response?.data) {
+        // Try to extract any error information
+        const errorData = err.response.data;
+        if (errorData.errors) {
+          setError(Array.isArray(errorData.errors) ? errorData.errors.join('. ') : String(errorData.errors));
+        } else {
+          setError(errorData.message || 'Registration failed. Please check your input and try again.');
+        }
       } else {
-        setError(err.response?.data?.message || 'Registration failed. Please check if the backend server is running and try again.');
+        setError('Registration failed. Please check if the backend server is running and try again.');
       }
     } finally {
       setLoading(false);
@@ -140,8 +172,8 @@ const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="you@nst.edu.in"
-              helperText="Must be from @nst.edu.in domain"
+              placeholder="you@adypu.edu.in"
+              helperText="Must be from @adypu.edu.in domain"
             />
 
             <Input
