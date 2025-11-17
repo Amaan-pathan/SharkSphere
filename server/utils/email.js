@@ -8,7 +8,7 @@ export const sendVerificationEmail = async (email, token) => {
     
     await resend.emails.send({
       // from: 'Entrepreneurship Club <onboarding@resend.dev>',
-      from: "SharkSphere <no-reply@resend.dev>",
+      from: "SharkSphere <admin@sharksphere.club>",
       to: email,
       subject: 'Verify Your Email - Entrepreneurship Club',
       html: `
