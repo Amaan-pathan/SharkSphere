@@ -7,8 +7,8 @@ export const sendVerificationEmail = async (email, token) => {
     const verificationUrl = `https://sharksphere.onrender.com/api/auth/verify-email/${token}`;
     
     await resend.emails.send({
-      // from: 'Entrepreneurship Club <onboarding@resend.dev>',
-      from: "SharkSphere <admin@sharksphere.club>",
+      from: 'Entrepreneurship Club <onboarding@resend.dev>',
+      // from: "SharkSphere <admin@sharksphere.club>",
       to: email,
       subject: 'Verify Your Email - Entrepreneurship Club',
       html: `
