@@ -15,7 +15,9 @@ dotenv.config();
 //   'https://sharksphere.onrender.com', // Local backend
 // ];
 // by gpt
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = ["http://localhost:5173",
+  "https://shark-sphere-phi.vercel.app"
+];
 
 
 app.use(cors({
