@@ -106,11 +106,37 @@ const CreateIdea = () => {
                   minLength={10}
                   rows={10}
                   className="w-full px-4 py-3.5 bg-bg-secondary/50 backdrop-blur-sm border border-border-light rounded-lg text-sm sm:text-base text-text-heading placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-purple-neon focus:border-purple-neon focus:shadow-glow-purple transition-all duration-300 resize-none leading-relaxed hover:border-purple-DEFAULT/50"
-                  placeholder="Describe your idea in detail. What problem does it solve? How does it work? What makes it unique?"
+                  placeholder="Description must be filled in the format given below!!!"
                 />
-                <p className="mt-2 text-xs text-text-muted">
-                  Minimum 10 characters. Be as detailed as possible!
-                </p>
+<p className="mt-2 text-xs text-text-muted">
+  <strong>1. Problem Statement</strong><br />
+  Describe the problem.<br /><br />
+
+  <strong>2. Your Solution</strong><br />
+  Explain how your idea solves the problem.<br /><br />
+
+  <strong>3. Why Now?</strong><br />
+  What changed recently that makes this idea important today?<br /><br />
+
+  <strong>4. Target Users</strong><br />
+  Who are your users? Describe them clearly.<br /><br />
+
+  <strong>5. Progress So Far</strong><br />
+  Idea / Prototype / MVP / Users / Revenue<br /><br />
+
+  <strong>6. Co-Founder / Team Requirements</strong><br />
+  Do you have a team? If not, what skills are you looking for?<br /><br />
+
+  <strong>7. Competitors</strong><br />
+  Who else is doing this and how are you different?<br /><br />
+
+  <strong>8. Long-Term Vision</strong><br />
+  If this succeeds, what will it look like in 5 years?<br /><br />
+
+  <strong>9. Slack Username</strong><br />
+  Share your Slack username for collaboration.
+</p>
+
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
