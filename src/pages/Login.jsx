@@ -121,7 +121,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="you@nst.edu.in"
+              placeholder="you@adypu.edu.in"
             />
 
             <Input
