@@ -80,7 +80,7 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            <button
+            {/* <button
               onClick={toggleTheme}
               className="ml-2 p-2 sm:p-2.5 rounded-lg hover:bg-bg-secondary/50 transition-all duration-200"
               aria-label="Toggle theme"
@@ -94,7 +94,7 @@ const Navbar = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
               )}
-            </button>
+            </button> */}
           </div>
 
           {/* Mobile Menu Button */}
@@ -172,7 +172,7 @@ const Navbar = () => {
                   </>
                 )}
                 <div className="pt-4 mt-4 border-t border-border-light">
-                  <button
+                  {/* <button
                     onClick={toggleTheme}
                     className="w-full px-4 py-3 text-left text-sm font-medium text-text-body hover:text-text-heading hover:bg-bg-tertiary rounded-lg transition-all duration-200 flex items-center gap-3"
                   >
@@ -191,7 +191,7 @@ const Navbar = () => {
                         Dark Mode
                       </>
                     )}
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </motion.div>

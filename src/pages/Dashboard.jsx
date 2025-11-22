@@ -192,7 +192,9 @@ const Dashboard = () => {
           className="mb-6 sm:mb-8 flex flex-col sm:flex-row gap-3 sm:gap-4"
         >
           <div className="flex-1 relative">
-            <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-text-muted" />
+            <div className="absolute inset-y-0 left-3 sm:left-4 flex items-center pointer-events-none z-10">
+              <Search className="w-4 h-4 sm:w-5 sm:h-5 text-text-muted" />
+            </div>
             <Input
               type="text"
               placeholder="Search ideas..."
@@ -202,7 +204,9 @@ const Dashboard = () => {
             />
           </div>
           <div className="relative w-full sm:w-auto sm:min-w-[180px]">
-            <Filter className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-text-muted pointer-events-none z-10" />
+            <div className="absolute inset-y-0 left-3 sm:left-4 flex items-center pointer-events-none z-10">
+              <Filter className="w-4 h-4 sm:w-5 sm:h-5 text-text-muted" />
+            </div>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
