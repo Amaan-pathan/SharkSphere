@@ -187,76 +187,85 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* What We Do */}
+      {/* Combined: What We Do + Why This Platform Exists (responsive two-column) */}
       <section className="py-section px-4 sm:px-6 lg:px-12">
         <div className="max-w-content mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="max-w-text px-4 sm:px-0"
-          >
-            <h2 className="text-h1 font-bold mb-4 sm:mb-6 text-text-heading section-glow flex items-center gap-2">
-              <Layers className="w-6 h-6 text-purple-neon" />
-              What We Do
-            </h2>
-            <p className="text-body-lg text-text-body leading-relaxed mb-4">
-              We help students go from idea → product → funded startup.
-            </p>
-            <p className="text-body-lg text-text-body leading-relaxed">
-              Post ideas, find teammates, validate fast, and get tracked through every stage of your founder journey.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="group h-full w-full rounded-xl p-6 sm:p-8 shadow-card border border-border/30 flex flex-col justify-between transform-gpu hover:-translate-y-0.5 transition-transform duration-300"
+              style={{ background: 'linear-gradient(180deg, rgba(19,19,26,0.72), rgba(10,10,15,0.6))' }}
+            >
+              <div>
+                <h3 className="text-h2 font-bold mb-3 flex items-center gap-3 text-text-heading">
+                  <Layers className="w-6 h-6 text-purple-neon" />
+                  What We Do
+                </h3>
+                <p className="text-body-lg text-text-body leading-relaxed mb-3">
+                  We help students go from idea → product → funded startup.
+                </p>
+                <p className="text-body-lg text-text-body leading-relaxed">
+                  Post ideas, find teammates, validate fast, and get tracked through every stage of your founder journey.
+                </p>
+              </div>
+              <div className="mt-6">
+                <Link to="/create-idea" className="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-purple-DEFAULT to-purple-neon text-white rounded-lg shadow-glow-neon hover:scale-105 transform transition duration-200 font-semibold ring-1 ring-transparent hover:ring-purple-accent/30">
+                  Start an Idea
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </motion.div>
 
-      {/* Why This Platform Exists */}
-      <section className="py-section px-4 sm:px-6 lg:px-12 border-y border-border/50">
-        <div className="max-w-content mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="max-w-text px-4 sm:px-0"
-          >
-            <h2 className="text-h1 font-bold mb-6 text-text-heading section-glow flex items-center gap-2">
-              <Info className="w-6 h-6 text-purple-neon" />
-              Why This Platform Exists
-            </h2>
-            <p className="text-body-lg text-text-body leading-relaxed mb-6">
-              Most students have ideas. Very few execute.
-            </p>
-            <p className="text-body-lg text-text-body leading-relaxed mb-8">
-              We fix that by giving you:
-            </p>
-            <ul className="space-y-4 list-none pl-0">
-              {[
-                'A committed team',
-                'Expert mentorship',
-                'Clear milestones',
-                'Funding pathways',
-              ].map((item, index) => (
-                <motion.li
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-start gap-3 text-body-lg text-text-heading"
-                >
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-DEFAULT/20 flex items-center justify-center mt-0.5">
-                    <Check className="w-4 h-4 text-purple-neon" strokeWidth={2.5} />
-                  </div>
-                  <span>{item}</span>
-                </motion.li>
-              ))}
-            </ul>
-            <p className="text-body-lg text-text-body leading-relaxed mt-8">
-              This is the infrastructure that turns "college projects" into companies.
-            </p>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6 }}
+              className="group h-full w-full rounded-xl p-6 sm:p-8 shadow-card border border-border/30 flex flex-col justify-between transform-gpu hover:-translate-y-0.5 transition-transform duration-300"
+              style={{ background: 'linear-gradient(180deg, rgba(19,19,26,0.72), rgba(10,10,15,0.6))' }}
+            >
+              <div>
+                <h3 className="text-h2 font-bold mb-3 flex items-center gap-3 text-text-heading">
+                  <Info className="w-6 h-6 text-purple-neon" />
+                  Why This Platform Exists
+                </h3>
+                <p className="text-body-lg text-text-body leading-relaxed mb-4">
+                  Most students have ideas. Very few execute.
+                </p>
+                <p className="text-body-lg text-text-body leading-relaxed mb-4">
+                  We fix that by giving you:
+                </p>
+                <ul className="space-y-3 list-none pl-0">
+                  {[
+                    'A committed team',
+                    'Expert mentorship',
+                    'Clear milestones',
+                    'Funding pathways',
+                  ].map((item, index) => (
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.35, delay: index * 0.08 }}
+                      className="flex items-start gap-3 text-body-lg text-text-heading"
+                    >
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-DEFAULT/20 flex items-center justify-center mt-0.5">
+                        <Check className="w-4 h-4 text-purple-neon" strokeWidth={2.5} />
+                      </div>
+                      <span>{item}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-6 text-sm text-text-muted">
+                This is the infrastructure that turns "college projects" into companies.
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
