@@ -14,7 +14,10 @@ import {
   Rocket,
   ArrowRight,
   TrendingUp,
-  Sparkles
+  Sparkles,
+  Layers,
+  Info,
+  Star
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.jsx';
 import Button from '../components/Button.jsx';
@@ -51,7 +54,6 @@ const Landing = () => {
     <div className="min-h-screen bg-bg-primary text-text-heading">
       {/* Hero Section with Animated Background */}
       <section className="relative pt-20 sm:pt-24 md:pt-32 pb-section-lg px-4 sm:px-6 lg:px-12 overflow-hidden">
-        {/* Animated Background Blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <motion.div
             animate={{
@@ -79,6 +81,9 @@ const Landing = () => {
             }}
             className="absolute bottom-20 right-10 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-purple-neon/10 rounded-full blur-3xl"
           />
+          <div className="bg-mesh-soft" />
+          <div className="bg-dots-soft" />
+          <div className="bg-circuits" />
         </div>
 
         <div className="max-w-content mx-auto relative z-10">
@@ -98,7 +103,7 @@ const Landing = () => {
 
             <motion.h1
               variants={itemVariants}
-              className="text-hero font-bold mb-4 sm:mb-6 leading-[1.1] tracking-tight text-text-heading"
+              className="text-hero font-bold mb-4 sm:mb-6 leading-[1.1] tracking-tight text-text-heading section-glow"
             >
               Build Startups. Find Co-Founders. Get Funded.
             </motion.h1>
@@ -152,7 +157,8 @@ const Landing = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-section px-4 sm:px-6 lg:px-12">
+      <section className="relative py-section px-4 sm:px-6 lg:px-12 overflow-hidden">
+        <div className="bg-hex-network" />
         <div className="max-w-content mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
             {[
@@ -191,7 +197,10 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             className="max-w-text px-4 sm:px-0"
           >
-            <h2 className="text-h1 font-bold mb-4 sm:mb-6 text-text-heading">What We Do</h2>
+            <h2 className="text-h1 font-bold mb-4 sm:mb-6 text-text-heading section-glow flex items-center gap-2">
+              <Layers className="w-6 h-6 text-purple-neon" />
+              What We Do
+            </h2>
             <p className="text-body-lg text-text-body leading-relaxed mb-4">
               We help students go from idea → product → funded startup.
             </p>
@@ -212,7 +221,10 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             className="max-w-text px-4 sm:px-0"
           >
-            <h2 className="text-h1 font-bold mb-6 text-text-heading">Why This Platform Exists</h2>
+            <h2 className="text-h1 font-bold mb-6 text-text-heading section-glow flex items-center gap-2">
+              <Info className="w-6 h-6 text-purple-neon" />
+              Why This Platform Exists
+            </h2>
             <p className="text-body-lg text-text-body leading-relaxed mb-6">
               Most students have ideas. Very few execute.
             </p>
@@ -258,7 +270,10 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             className="mb-8 sm:mb-16 max-w-text px-4 sm:px-0"
           >
-            <h2 className="text-h1 font-bold mb-4 sm:mb-6 text-text-heading">Key Features</h2>
+            <h2 className="text-h1 font-bold mb-4 sm:mb-6 text-text-heading section-glow flex items-center gap-2">
+              <Star className="w-6 h-6 text-purple-neon" />
+              Key Features
+            </h2>
             <p className="text-body-lg text-text-body leading-relaxed">
               Everything you need to build and launch your startup.
             </p>
@@ -356,7 +371,10 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             className="mb-8 sm:mb-16 max-w-text px-4 sm:px-0"
           >
-            <h2 className="text-h1 font-bold mb-4 sm:mb-6 text-text-heading">Why Join?</h2>
+            <h2 className="text-h1 font-bold mb-4 sm:mb-6 text-text-heading section-glow flex items-center gap-2">
+              <Users className="w-6 h-6 text-purple-neon" />
+              Why Join?
+            </h2>
             <p className="text-body-lg text-text-body leading-relaxed">
               Join hundreds of founders building the next generation of startups.
             </p>
@@ -390,7 +408,10 @@ const Landing = () => {
             transition={{ duration: 0.6 }}
             className="max-w-text px-4 sm:px-0"
           >
-            <h2 className="text-h1 font-bold mb-4 sm:mb-6 text-text-heading">About Shark Sphere</h2>
+            <h2 className="text-h1 font-bold mb-4 sm:mb-6 text-text-heading section-glow flex items-center gap-2">
+              <Sparkles className="w-6 h-6 text-purple-neon" />
+              About Shark Sphere
+            </h2>
             <p className="text-body-lg text-text-body leading-relaxed">
               Shark Sphere is the entrepreneurial backbone of NST — where ideas get built, teams get formed, and students become founders.
             </p>

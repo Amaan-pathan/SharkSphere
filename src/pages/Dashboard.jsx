@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Trash2, Eye, Search, ArrowUp, Plus, Filter } from 'lucide-react';
+import { Trash2, Eye, Search, ArrowUp, Plus, Filter, Lightbulb } from 'lucide-react';
 import { getAllIdeas, deleteIdea } from '../api/ideas.js';
 import { toggleVote } from '../api/votes.js';
 import { useAuth } from '../context/AuthContext.jsx';
@@ -153,8 +153,12 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-bg-primary text-text-heading pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-12">
-      <div className="max-w-content mx-auto">
+    <div className="min-h-screen bg-bg-primary text-text-heading pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-12 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="bg-mesh-soft" />
+        <div className="bg-circuits" />
+      </div>
+      <div className="max-w-content mx-auto relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -163,7 +167,10 @@ const Dashboard = () => {
           className="mb-8 sm:mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6"
         >
           <div className="flex-1">
-            <h1 className="text-h1 font-bold mb-2 sm:mb-3 text-text-heading">Ideas</h1>
+            <h1 className="text-h1 font-bold mb-2 sm:mb-3 text-text-heading section-glow flex items-center gap-2">
+              <Lightbulb className="w-6 h-6 text-purple-neon" />
+              Ideas
+            </h1>
             <p className="text-body text-text-body sm:text-body-lg">
               Explore and vote on innovative ideas from the community
             </p>
@@ -230,9 +237,11 @@ const Dashboard = () => {
             )}
           </motion.div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <AnimatePresence>
-              {filteredAndSortedIdeas.map((idea, index) => {
+          <div className="relative rounded-card p-3 sm:p-4 bg-bg-secondary/30 border border-border/30">
+            <div className="bg-dots-soft" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 relative z-10">
+              <AnimatePresence>
+                {filteredAndSortedIdeas.map((idea, index) => {
                 const isPositive = idea.votes?.total > 0;
                 const voteCount = idea.votes?.total || 0;
 
@@ -252,6 +261,23 @@ const Dashboard = () => {
                           <h3 className="text-h4 font-semibold text-text-heading line-clamp-2 flex-1">
                             {idea.title}
                           </h3>
+                          <div className="flex items-center gap-2">
+                            {(() => {
+                              const created = new Date(idea.createdAt);
+                              const days = (Date.now() - created.getTime()) / (1000 * 60 * 60 * 24);
+                              const voteTotal = idea.votes?.total || 0;
+                              return (
+                                <>
+                                  {days < 7 && (
+                                    <span className="px-2 py-1 rounded-full text-[10px] font-semibold bg-bg-tertiary border border-border-light text-text-muted">New</span>
+                                  )}
+                                  {voteTotal >= 5 && (
+                                    <span className="px-2 py-1 rounded-full text-[10px] font-semibold bg-purple-DEFAULT/15 border border-purple-neon/30 text-purple-neon">Trending</span>
+                                  )}
+                                </>
+                              );
+                            })()}
+                          </div>
                           {user && idea.author.id === user.id && (
                             <motion.button
                               onClick={(e) => {
@@ -335,7 +361,8 @@ const Dashboard = () => {
                   </motion.div>
                 );
               })}
-            </AnimatePresence>
+              </AnimatePresence>
+            </div>
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Lightbulb } from 'lucide-react';
 import { createIdea } from '../api/ideas.js';
 import Button from '../components/Button.jsx';
 import Input from '../components/Input.jsx';
@@ -39,15 +39,22 @@ const CreateIdea = () => {
   };
 
   return (
-    <div className="min-h-screen bg-bg-primary text-text-heading pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-12">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-bg-primary text-text-heading pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-12 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="bg-mesh-soft" />
+        <div className="bg-dots-soft" />
+      </div>
+      <div className="max-w-3xl mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           className="mb-8 sm:mb-12"
         >
-          <h1 className="text-h1 font-bold mb-2 sm:mb-4 text-text-heading">Share Your Idea</h1>
+          <h1 className="text-h1 font-bold mb-2 sm:mb-4 text-text-heading section-glow flex items-center gap-2">
+            <Lightbulb className="w-6 h-6 text-purple-neon" />
+            Share Your Idea
+          </h1>
           <p className="text-body sm:text-body-lg text-text-body">
             What innovation are you building?
           </p>
