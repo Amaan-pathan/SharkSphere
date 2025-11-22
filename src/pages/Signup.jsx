@@ -105,7 +105,6 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen bg-bg-primary flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12 pt-20 sm:pt-24 relative overflow-hidden">
-      {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{
@@ -133,6 +132,8 @@ const Signup = () => {
           }}
           className="absolute bottom-20 right-10 w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 bg-purple-neon/10 rounded-full blur-3xl"
         />
+        <div className="bg-dots-soft" />
+        <div className="bg-circuits" />
       </div>
 
       <motion.div

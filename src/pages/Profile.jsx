@@ -93,7 +93,10 @@ const Profile = () => {
           transition={{ duration: 0.4 }}
           className="mb-8 sm:mb-12"
         >
-          <h1 className="text-h1 font-bold mb-2 sm:mb-4 text-text-heading">Profile</h1>
+          <h1 className="text-h1 font-bold mb-2 sm:mb-4 text-text-heading section-glow flex items-center gap-2">
+            <User className="w-6 h-6 text-purple-neon" />
+            Profile
+          </h1>
           <p className="text-body sm:text-body-lg text-text-body">Your account information</p>
         </motion.div>
 
@@ -105,8 +108,11 @@ const Profile = () => {
         >
           <Card glass className="mb-6 sm:mb-8">
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-border-light">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-card bg-gradient-to-br from-purple-DEFAULT to-purple-neon flex items-center justify-center text-white text-3xl sm:text-4xl font-bold shadow-glow-neon flex-shrink-0">
-                {user.name.charAt(0).toUpperCase()}
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24">
+                <div className="absolute -inset-2 rounded-[2rem] bg-purple-neon/10 blur-2xl" />
+                <div className="relative w-full h-full rounded-card bg-gradient-to-br from-purple-DEFAULT to-purple-neon flex items-center justify-center text-white text-3xl sm:text-4xl font-bold shadow-glow-neon flex-shrink-0">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
               </div>
               <div className="flex-1 text-center sm:text-left w-full sm:w-auto">
                 <h2 className="text-h2 font-bold mb-2 text-text-heading">{user.name}</h2>
@@ -169,6 +175,31 @@ const Profile = () => {
               </div>
             </div>
           </Card>
+        </motion.div>
+
+        <div className="divider-decor mb-8" />
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="mb-8"
+        >
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <Card glass hover={false} className="text-center">
+              <div className="text-xs text-text-muted mb-1">Ideas Posted</div>
+              <div className="text-h3 font-bold text-text-heading">{userIdeas.length}</div>
+            </Card>
+            <Card glass hover={false} className="text-center">
+              <div className="text-xs text-text-muted mb-1">Total Votes</div>
+              <div className="text-h3 font-bold text-text-heading">{userIdeas.reduce((sum, i) => sum + (i.votes?.total || 0), 0)}</div>
+            </Card>
+            <Card glass hover={false} className="text-center hidden md:block">
+              <div className="text-xs text-text-muted mb-1">Latest Idea</div>
+              <div className="text-h4 font-semibold text-text-heading">
+                {userIdeas.length ? new Date(userIdeas[0].createdAt).toLocaleDateString() : '—'}
+              </div>
+            </Card>
+          </div>
         </motion.div>
 
         {/* User's Ideas */}

@@ -6,6 +6,7 @@ const Card = ({
   hover = true,
   onClick,
   glass = false,
+  decor = true,
   ...props 
 }) => {
   return (
@@ -18,6 +19,7 @@ const Card = ({
         border rounded-card p-4 sm:p-6 
         shadow-card transition-all duration-300
         ${hover ? 'hover:shadow-card-hover hover:border-purple-neon/40 cursor-pointer' : ''}
+        ${decor ? 'card-decor' : ''}
         ${className}
       `}
       {...props}

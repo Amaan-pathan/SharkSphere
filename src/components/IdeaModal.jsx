@@ -29,7 +29,10 @@ const IdeaModal = ({ idea, isOpen, onClose }) => {
           >
             <div className="glass-strong border border-border-light rounded-card max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-card-hover mx-4">
               {/* Header */}
-              <div className="flex items-start justify-between p-4 sm:p-6 lg:p-8 border-b border-border-light">
+              <div className="flex items-start justify-between p-4 sm:p-6 lg:p-8 border-b border-border-light section-glow relative">
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="bg-dots-soft" />
+                </div>
                 <div className="flex-1 pr-3 sm:pr-4 min-w-0">
                   <h2 className="text-h3 sm:text-h2 font-bold text-text-heading mb-3 sm:mb-4 break-words">
                     {idea.title}
