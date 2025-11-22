@@ -476,7 +476,7 @@ const Landing = () => {
                 </Link>
               </li>
               <li>
-                <a href="mailto:ecell@nst.edu.in" className="text-text-body hover:text-purple-neon transition-colors">
+                <a href="mailto:admin@sharksphere.club" className="text-text-body hover:text-purple-neon transition-colors">
                   Contact Us
                 </a>
               </li>
